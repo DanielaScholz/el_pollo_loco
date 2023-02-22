@@ -4,14 +4,15 @@ class World {
     keyboard;
     mirroring = false; //Spiegelung von Objekten beim Rückwertsgehen
     camera_x = 0;
-    level_end_position_x = 1400;
+    level_end_position_x = 2157;
 
-    backgroundObjects = level1.backgroundObjects;
-    clouds = level1.clouds;
-    enemies = level1.enemies;
+    level = level1;
 
     character = new Character();    
-    statusbar = new Statusbar();
+    statusbarHealth = new StatusbarHealth();
+    statusbarCoins = new StatusbarCoins();
+    statusbarBottles = new StatusbarBottles();
+
 
 
     constructor(canvas, keyboard) {
@@ -25,10 +26,10 @@ class World {
 
     checkCollition(){
         setInterval(() => {
-            this.enemies.forEach((enemy) => {
+            this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     this.character.hit();
-                    this.statusbar.setPercentage(this.character.energy);
+                    this.statusbarHealth.setPercentage(this.character.energy);
                 }
             })
         }, 200); 
@@ -44,12 +45,15 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clearRect-> cleart beim Aktualisieren das Canvas, da sich sonst Figuren nicht bewegen würden
         this.ctx.translate(this.camera_x,0); //mit translate(x,y) wird das Canvas nach links verschoben
 
-        this.addObjectsToMap(this.backgroundObjects);
-        this.addObjectsToMap(this.clouds);
-        this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemies);
+
 
         this.ctx.translate(-this.camera_x,0); //Kamera verschiebt sich zurück
-        this.addToMap(this.statusbar);
+        this.addToMap(this.statusbarHealth);
+        this.addToMap(this.statusbarCoins);
+        this.addToMap(this.statusbarBottles);
         this.ctx.translate(this.camera_x,0); //Kamera verschiebt sich vor
 
 
