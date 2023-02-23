@@ -12,6 +12,7 @@ class World {
     statusbarHealth = new StatusbarHealth();
     statusbarCoins = new StatusbarCoins();
     statusbarBottles = new StatusbarBottles();
+    statusbarEndboss = new StatusbarEndboss();
 
 
 
@@ -54,6 +55,7 @@ class World {
         this.addToMap(this.statusbarHealth);
         this.addToMap(this.statusbarCoins);
         this.addToMap(this.statusbarBottles);
+        this.addToMap(this.statusbarEndboss);
         this.ctx.translate(this.camera_x,0); //Kamera verschiebt sich vor
 
 
