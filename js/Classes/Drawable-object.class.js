@@ -29,7 +29,7 @@ class DrawableObject {
 
     //Methode um Rechtecke um die Objekte zu zeichen um Kollision erkennbar zu machen -> nur für die Spielentwicklung notwendig
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken) { // Bedingung gilt nur für Instanz Character & Chicken
+        if (this instanceof Character || this instanceof Chicken || this instanceof BabyChicken) { // Bedingung gilt nur für Instanz Character & Chicken
             ctx.beginPath();
             ctx.lineWidth = "4";
             ctx.strokeStyle = "green";

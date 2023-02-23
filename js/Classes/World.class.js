@@ -49,6 +49,7 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.coins);
 
 
         this.ctx.translate(-this.camera_x,0); //Kamera verschiebt sich zurück
@@ -57,7 +58,6 @@ class World {
         this.addToMap(this.statusbarBottles);
         this.addToMap(this.statusbarEndboss);
         this.ctx.translate(this.camera_x,0); //Kamera verschiebt sich vor
-
 
         this.addToMap(this.character);
 
