@@ -12,8 +12,15 @@ class StatusbarEndboss extends Statusbar {
     ];
 
     constructor(){
-        super().loadImages(this.IMAGES);
+        super();
+        this.mirrorStatusbar();
+        this.loadImages(this.IMAGES);
+
         this.setPercentage(100);
+    }
+
+    mirrorStatusbar(){
+        this.mirroring = true;
     }
 
 
