@@ -1,9 +1,14 @@
 class MoveableObject extends DrawableObject {
     speed = 0.15; // Geschwindigkeit von Objekten z.B. Hühnern
     energy = 100; //Energie der Objekte (Character, Endboss, Hühner)
+    coins = 0;
+    bottles = 0;
     lastHit = 0;
-
+    rate_of_fall = 0; //Fallgeschwindigkeit ->speedY
+    acceleration = 3; //Beschleunigung
     
+
+
     moveRight() {
         this.position_x += this.speed;
     }
@@ -21,6 +26,24 @@ class MoveableObject extends DrawableObject {
         let path = images_array[i];
         this.img = this.imagesCache[path];
         this.currentImage++;
+    }
+
+    applyGravity() {
+        setInterval(() => {
+            if (this.isAboveGround() || this.rate_of_fall > 0) {
+                this.position_y -= this.rate_of_fall;
+                this.rate_of_fall -= this.acceleration;
+            }
+        }, 1000 / 25);
+    }
+
+
+    isAboveGround() {
+        if (this instanceof ThrowableObject) {
+            return true;
+        } else {
+            return this.position_y < 180;
+        }
     }
 
     

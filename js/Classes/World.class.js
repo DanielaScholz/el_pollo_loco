@@ -8,7 +8,8 @@ class World {
 
     level = level1;
 
-    character = new Character();    
+    character = new Character();  
+    throwableObjects = [];
     statusbarHealth = new StatusbarHealth();
     statusbarCoins = new StatusbarCoins();
     statusbarBottles = new StatusbarBottles();
@@ -22,20 +23,83 @@ class World {
         this.keyboard = keyboard;
         this.setWorld();
         this.draw();
-        this.checkCollition();
+        this.run();
     }
 
-    checkCollition(){
+    run(){
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.statusbarHealth.setPercentage(this.character.energy);
-                }
-            })
+            this.checkCollisionsWithEnemies();
+            this.checkCollisionsWithCoins();
+            this.checkCollisionsWithBottles();
+            this.checkThrowableObjects();
         }, 200); 
     }
 
+    checkThrowableObjects(){
+        if (this.keyboard.D && this.character.bottles > 0) {
+            let bottle = new ThrowableObject(this.character.position_x +100, this.character.position_y +100);
+            this.throwableObjects.push(bottle);
+            this.throwBottle();
+        }
+
+    }
+
+    checkCollisionsWithEnemies(){
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.statusbarHealth.setPercentage(this.character.energy);
+            }
+        })
+    }
+
+    checkCollisionsWithCoins(){
+        this.level.coins.forEach((coin, index) => {
+            if (this.character.isColliding(coin)) {
+                this.CollectingCoins(index);
+            }
+        })
+    }
+
+    checkCollisionsWithBottles(){
+        this.level.bottles.forEach((bottle, index) => {
+            if (this.character.isColliding(bottle)) {
+                this.CollectingBottles(index);
+            }
+        })
+
+    }
+
+    CollectingCoins(index){
+        if (this.character.coins < 100) {
+            this.level.coins.splice(index, 1);
+            this.character.coins += 20;
+            this.statusbarCoins.setPercentage(this.character.coins);
+        } 
+
+        if (this.character.coins == 100 ) {
+            console.log('full')
+        }
+
+    }
+
+    CollectingBottles(index){
+        if (this.character.bottles < 100) {
+            this.level.bottles.splice(index, 1);
+            this.character.bottles += 20;
+            this.statusbarBottles.setPercentage(this.character.bottles);
+        } 
+
+        if (this.character.bottles == 100 ) {
+            console.log('full')
+        }
+    }
+
+    throwBottle(){
+        this.character.bottles -=20;
+        this.statusbarBottles.setPercentage(this.character.bottles);
+    }
+    
 
     setWorld() {
         this.character.world = this;
@@ -51,6 +115,7 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
+        this.addObjectsToMap(this.throwableObjects);
 
 
         this.ctx.translate(-this.camera_x,0); //Kamera verschiebt sich zurück

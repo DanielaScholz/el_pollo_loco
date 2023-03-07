@@ -6,8 +6,6 @@ class Character extends MoveableObject {
     speed = 10;
 
     position_y = 80;
-    rate_of_fall = 0; //Fallgeschwindigkeit ->speedY
-    acceleration = 3; //Beschleunigung
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -58,21 +56,6 @@ class Character extends MoveableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.applyGravity();
         this.animateCharacter();
-    }
-
-
-    applyGravity() {
-        setInterval(() => {
-            if (this.isAboveGround() || this.rate_of_fall > 0) {
-                this.position_y -= this.rate_of_fall;
-                this.rate_of_fall -= this.acceleration;
-            }
-        }, 1000 / 25);
-    }
-
-
-    isAboveGround() {
-        return this.position_y < 180;
     }
 
 
