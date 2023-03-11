@@ -1,15 +1,17 @@
 class Level {
     backgroundObjects;
     clouds;
-    enemies;
+    chickens;
+    babyChickens;
     coins;
     bottles;
     
 
-    constructor(backgroundObjects, clouds, enemies, coins, bottles){
+    constructor(backgroundObjects, clouds, chickens, babyChickens, coins, bottles){
         this.backgroundObjects = backgroundObjects;
         this.clouds = clouds;
-        this.enemies = enemies;
+        this.chickens = chickens;
+        this.babyChickens = babyChickens;
         this.coins = coins;
         this.bottles = bottles;
     }

@@ -8,7 +8,7 @@ class World {
 
     level = level1;
 
-    character = new Character();  
+    character = new Character();
     throwableObjects = [];
     statusbarHealth = new StatusbarHealth();
     statusbarCoins = new StatusbarCoins();
@@ -26,80 +26,128 @@ class World {
         this.run();
     }
 
-    run(){
+    run() {
         setInterval(() => {
-            this.checkCollisionsWithEnemies();
+            this.checkCollisionsWithChicken();
+            this.checkCollisionsWithBabyChicken();
             this.checkCollisionsWithCoins();
             this.checkCollisionsWithBottles();
             this.checkThrowableObjects();
-        }, 200); 
+            this.checkJumpingOnChicken();
+            this.checkJumpingOnBabyChicken();
+        }, 200);
     }
 
-    checkThrowableObjects(){
+    checkThrowableObjects() {
         if (this.keyboard.D && this.character.bottles > 0) {
-            let bottle = new ThrowableObject(this.character.position_x +100, this.character.position_y +100);
+            let bottle = new ThrowableObject(this.character.position_x + 100, this.character.position_y + 100);
             this.throwableObjects.push(bottle);
             this.throwBottle();
         }
 
     }
 
-    checkCollisionsWithEnemies(){
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.statusbarHealth.setPercentage(this.character.energy);
-            }
+    checkCollisionsWithChicken() {
+        this.level.chickens.forEach((enemy) => {
+            this.collisionWithEnemies(enemy);
         })
     }
 
-    checkCollisionsWithCoins(){
+    checkCollisionsWithBabyChicken() {
+        this.level.babyChickens.forEach((enemy) => {
+            this.collisionWithEnemies(enemy);
+        })
+    }
+
+    collisionWithEnemies(enemy) {
+        if (this.character.isColliding(enemy)) {
+            if (!this.character.isAboveGround()) {
+                this.character.hit();
+            }
+            this.statusbarHealth.setPercentage(this.character.energy);
+        }
+    }
+
+    checkJumpingOnChicken() {
+        this.level.chickens.forEach((enemy, index) => {
+            this.jumpingOnChicken(enemy, index);
+        })
+    }
+
+    checkJumpingOnBabyChicken() {
+        this.level.babyChickens.forEach((enemy, index) => {
+            this.jumpingOnBabyChicken(enemy, index);
+        })
+    }
+
+    jumpingOnChicken(enemy, index) {
+        if (this.collisionDetected(enemy)) {
+            this.level.chickens.splice(index, 1);
+        }
+    }
+
+    
+    jumpingOnBabyChicken(enemy, index) {
+        if (this.collisionDetected(enemy)) {
+            this.level.babyChickens.splice(index, 1);
+        }
+    }
+
+
+    collisionDetected(enemy) {
+        return this.character.isColliding(enemy) &&
+            this.character.isAboveGround() &&
+            this.character.rate_of_fall < 0;
+    }
+
+
+    checkCollisionsWithCoins() {
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
-                this.CollectingCoins(index);
+                this.collectingCoins(index);
             }
         })
     }
 
-    checkCollisionsWithBottles(){
+    checkCollisionsWithBottles() {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
-                this.CollectingBottles(index);
+                this.collectingBottles(index);
             }
         })
 
     }
 
-    CollectingCoins(index){
+    collectingCoins(index) {
         if (this.character.coins < 100) {
             this.level.coins.splice(index, 1);
             this.character.coins += 20;
             this.statusbarCoins.setPercentage(this.character.coins);
-        } 
+        }
 
-        if (this.character.coins == 100 ) {
+        if (this.character.coins == 100) {
             console.log('full')
         }
 
     }
 
-    CollectingBottles(index){
+    collectingBottles(index) {
         if (this.character.bottles < 100) {
             this.level.bottles.splice(index, 1);
             this.character.bottles += 20;
             this.statusbarBottles.setPercentage(this.character.bottles);
-        } 
+        }
 
-        if (this.character.bottles == 100 ) {
+        if (this.character.bottles == 100) {
             console.log('full')
         }
     }
 
-    throwBottle(){
-        this.character.bottles -=20;
+    throwBottle() {
+        this.character.bottles -= 20;
         this.statusbarBottles.setPercentage(this.character.bottles);
     }
-    
+
 
     setWorld() {
         this.character.world = this;
@@ -108,26 +156,27 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clearRect-> cleart beim Aktualisieren das Canvas, da sich sonst Figuren nicht bewegen würden
-        this.ctx.translate(this.camera_x,0); //mit translate(x,y) wird das Canvas nach links verschoben
+        this.ctx.translate(this.camera_x, 0); //mit translate(x,y) wird das Canvas nach links verschoben
 
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.chickens);
+        this.addObjectsToMap(this.level.babyChickens);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.throwableObjects);
 
 
-        this.ctx.translate(-this.camera_x,0); //Kamera verschiebt sich zurück
+        this.ctx.translate(-this.camera_x, 0); //Kamera verschiebt sich zurück
         this.addToMap(this.statusbarHealth);
         this.addToMap(this.statusbarCoins);
         this.addToMap(this.statusbarBottles);
         this.addToMap(this.statusbarEndboss);
-        this.ctx.translate(this.camera_x,0); //Kamera verschiebt sich vor
+        this.ctx.translate(this.camera_x, 0); //Kamera verschiebt sich vor
 
         this.addToMap(this.character);
 
-        this.ctx.translate(-this.camera_x,0); //nachdem der Hintergrund, Wolken, Enemies, Pepe gezeichnet wurden, verschiebt sich das Canvas wieder zurück
+        this.ctx.translate(-this.camera_x, 0); //nachdem der Hintergrund, Wolken, Enemies, Pepe gezeichnet wurden, verschiebt sich das Canvas wieder zurück
 
         let self = this; //Trick, weil THIS nicht funktioniert
         requestAnimationFrame(() => self.draw());//requestAnimationFrame() -> damit wird draw() immer und immer wieder aufgerufen (sooft wie es die Grafikkarte zulässt, ohne das der Rechner sich aufhängt)

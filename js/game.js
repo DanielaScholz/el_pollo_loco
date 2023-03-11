@@ -3,9 +3,9 @@ let world;
 let keyboard = new Keyboard();
 
 
-function init(){
+function init() {
     canvas = document.getElementById('canvas');
-    world =  new World(canvas, keyboard);
+    world = new World(canvas, keyboard);
 
     console.log('my character is', world);
 
@@ -63,3 +63,21 @@ window.addEventListener('keyup', (event) => {
         keyboard.D = false;
     }
 });
+
+function fullscreen() {
+    canvas.requestFullscreen();
+}
+
+function toggleAudio(){
+    document.getElementById('audio').classList.toggle('audio-icon-off');
+}
+
+// function audioOn {
+//     document.getElementById('audioOff').classList.remove('audio-icon-off');
+//     document.getElementById('audioOff').classList.add('audio-icon-on');
+// }
+
+// function audioOff {
+//     document.getElementById('audioOn').classList.remove('audio-icon-on');
+//     document.getElementById('audioOn').classList.add('audio-icon-off');
+// }
