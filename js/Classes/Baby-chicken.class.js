@@ -2,6 +2,7 @@ class BabyChicken extends MoveableObject{
     height = 60;
     width = 40;
     position_y= 390;
+    energy = 5;
 
     
     IMAGES_WALKING= [
@@ -17,20 +18,32 @@ class BabyChicken extends MoveableObject{
 
     constructor(){
         super().loadImage(this.IMAGES_WALKING[0]);
-        this.position_x = 300 + Math.random()*500;
+        this.position_x = 300 + Math.random()*700;
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_DEAD);
         this.speed = 0.3 + Math.random() * 0.4;
         this.animateChicken();
     }
 
     animateChicken(){
         setInterval(() => {
-            this.moveLeft();
+            this.babyChickenWalksLeft();
         }, 1000/60);
 
         setInterval(() => {
-            this.playImagesforAnimation(this.IMAGES_WALKING);
+            if (this.isDead()) {
+                this.playImagesforAnimation(this.IMAGES_DEAD);
+            } else {
+                this.playImagesforAnimation(this.IMAGES_WALKING);
+            }
         }, 300);
+    }
+
+
+    babyChickenWalksLeft(){
+        if (!this.isDead()) {
+            this.moveLeft();
+        }
     }
 
 }

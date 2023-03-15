@@ -1,4 +1,6 @@
 class World {
+    character = new Character();
+    endboss = new Endboss();
     canvas;
     ctx;
     keyboard;
@@ -8,14 +10,11 @@ class World {
 
     level = level1;
 
-    character = new Character();
     throwableObjects = [];
     statusbarHealth = new StatusbarHealth();
     statusbarCoins = new StatusbarCoins();
     statusbarBottles = new StatusbarBottles();
     statusbarEndboss = new StatusbarEndboss();
-
-
 
     constructor(canvas, keyboard) {
         this.canvas = canvas;
@@ -26,17 +25,21 @@ class World {
         this.run();
     }
 
+
     run() {
         setInterval(() => {
             this.checkCollisionsWithChicken();
             this.checkCollisionsWithBabyChicken();
             this.checkCollisionsWithCoins();
             this.checkCollisionsWithBottles();
+            this.checkCollisionWithEndboss();
+            this.checkCollisionWithBottleAndEndboss();
             this.checkThrowableObjects();
             this.checkJumpingOnChicken();
             this.checkJumpingOnBabyChicken();
         }, 200);
     }
+
 
     checkThrowableObjects() {
         if (this.keyboard.D && this.character.bottles > 0) {
@@ -44,8 +47,18 @@ class World {
             this.throwableObjects.push(bottle);
             this.throwBottle();
         }
-
     }
+
+
+    checkCollisionWithBottleAndEndboss() {
+        this.throwableObjects.forEach((bottle) => {
+            if (this.endboss.isColliding(bottle)) {
+                this.endboss.hit(10);
+                this.statusbarEndboss.setPercentage(this.endboss.energy);
+            }
+        })
+    }
+
 
     checkCollisionsWithChicken() {
         this.level.chickens.forEach((enemy) => {
@@ -53,16 +66,25 @@ class World {
         })
     }
 
+
     checkCollisionsWithBabyChicken() {
         this.level.babyChickens.forEach((enemy) => {
             this.collisionWithEnemies(enemy);
         })
     }
 
+    checkCollisionWithEndboss() {
+        if (this.character.isColliding(this.endboss)) {
+            this.character.hit(10);
+            this.statusbarHealth.setPercentage(this.character.energy);
+        }
+    }
+
+
     collisionWithEnemies(enemy) {
         if (this.character.isColliding(enemy)) {
             if (!this.character.isAboveGround()) {
-                this.character.hit();
+                this.character.hit(5);
             }
             this.statusbarHealth.setPercentage(this.character.energy);
         }
@@ -74,22 +96,31 @@ class World {
         })
     }
 
+    jumpingOnChicken(enemy, index) {
+        if (this.collisionDetected(enemy)) {
+            enemy.hit(5);
+
+            setTimeout(() => {
+                this.level.chickens.splice(index, 1);
+            }, 1000);
+        }
+    }
+    
+
     checkJumpingOnBabyChicken() {
         this.level.babyChickens.forEach((enemy, index) => {
             this.jumpingOnBabyChicken(enemy, index);
         })
     }
 
-    jumpingOnChicken(enemy, index) {
-        if (this.collisionDetected(enemy)) {
-            this.level.chickens.splice(index, 1);
-        }
-    }
 
-    
     jumpingOnBabyChicken(enemy, index) {
         if (this.collisionDetected(enemy)) {
-            this.level.babyChickens.splice(index, 1);
+            enemy.hit(5);
+
+            setTimeout(() => {
+                this.level.babyChickens.splice(index, 1);
+            }, 1000);
         }
     }
 
@@ -109,14 +140,15 @@ class World {
         })
     }
 
+
     checkCollisionsWithBottles() {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 this.collectingBottles(index);
             }
         })
-
     }
+
 
     collectingCoins(index) {
         if (this.character.coins < 100) {
@@ -128,8 +160,8 @@ class World {
         if (this.character.coins == 100) {
             console.log('full')
         }
-
     }
+
 
     collectingBottles(index) {
         if (this.character.bottles < 100) {
@@ -142,6 +174,7 @@ class World {
             console.log('full')
         }
     }
+
 
     throwBottle() {
         this.character.bottles -= 20;
@@ -164,8 +197,8 @@ class World {
         this.addObjectsToMap(this.level.babyChickens);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
+        this.addToMap(this.endboss);
         this.addObjectsToMap(this.throwableObjects);
-
 
         this.ctx.translate(-this.camera_x, 0); //Kamera verschiebt sich zurück
         this.addToMap(this.statusbarHealth);
@@ -213,8 +246,5 @@ class World {
             this.ctx.restore(); // der zuvor gespeicherte Zustand wird wiederhergestellt
         }
     }
-
-
-
 
 }

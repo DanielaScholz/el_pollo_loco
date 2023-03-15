@@ -1,6 +1,8 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let intervalIds = [];
+let i = 1;
 
 
 function init() {
@@ -9,6 +11,11 @@ function init() {
 
     console.log('my character is', world);
 
+}
+
+function setStopableInterval(fn, time) {
+    let id = setInterval(fn, time);
+    intervalIds.push(id);
 }
 
 

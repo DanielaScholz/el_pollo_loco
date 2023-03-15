@@ -6,8 +6,8 @@ class MoveableObject extends DrawableObject {
     lastHit = 0;
     rate_of_fall = 0; //Fallgeschwindigkeit ->speedY
     acceleration = 3; //Beschleunigung
+    dead = false;
     
-
 
     moveRight() {
         this.position_x += this.speed;
@@ -63,8 +63,8 @@ class MoveableObject extends DrawableObject {
 
     // }
 
-    hit(){
-        this.energy -= 5;
+    hit(damage){
+        this.energy -= damage;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
