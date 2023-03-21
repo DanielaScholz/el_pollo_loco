@@ -7,6 +7,8 @@ class MoveableObject extends DrawableObject {
     rate_of_fall = 0; //Fallgeschwindigkeit ->speedY
     acceleration = 3; //Beschleunigung
     dead = false;
+
+
     
 
     moveRight() {
@@ -47,6 +49,13 @@ class MoveableObject extends DrawableObject {
     }
 
     
+    // isColliding(mO){
+    //     return this.position_x + this.width - this.offset.right > mO.position_x + mO.offset.left &&
+    //     this.position_y + this.height - this.offset.bottom > mO.position_y + mO.offset.top &&
+    //     this.position_x + this.offset.left < mO.position_x + mO.width - mO.offset.right && 
+    //     this.position_y + this.offset.top < mO.position_y + mO.height - mO.offset.bottom;
+    // }
+
     isColliding(mO){
         return this.position_x + this.width > mO.position_x &&
         this.position_y + this.height > mO.position_y &&

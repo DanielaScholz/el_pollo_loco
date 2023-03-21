@@ -26,11 +26,11 @@ class BabyChicken extends MoveableObject{
     }
 
     animateChicken(){
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.babyChickenWalksLeft();
         }, 1000/60);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (this.isDead()) {
                 this.playImagesforAnimation(this.IMAGES_DEAD);
             } else {

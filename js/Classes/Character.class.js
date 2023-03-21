@@ -7,6 +7,13 @@ class Character extends MoveableObject {
 
     position_y = 80;
 
+    offset = {
+        top: 120,
+        bottom: 30,
+        left: 40,
+        right: 30
+    }
+
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -60,16 +67,20 @@ class Character extends MoveableObject {
 
 
     animateCharacter() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.pepeWalkesRight();
             this.pepeWalkesLeft();
             this.pepeJumps();
             this.world.camera_x = - this.position_x + 100;
         }, 1000 / 60);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (this.isDead()) {
                 this.playImagesforAnimation(this.IMAGES_DEAD);
+                setTimeout(() => {
+                    showEndScreen();
+                    stopGame();
+                }, 2000);
             } else if (this.isHurt()) {
                 this.playImagesforAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {

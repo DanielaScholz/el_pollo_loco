@@ -7,6 +7,7 @@ class World {
     mirroring = false; //Spiegelung von Objekten beim Rückwertsgehen
     camera_x = 0;
     level_end_position_x = 2157;
+    dead = false;
 
     level = level1;
 
@@ -27,7 +28,7 @@ class World {
 
 
     run() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.checkCollisionsWithChicken();
             this.checkCollisionsWithBabyChicken();
             this.checkCollisionsWithCoins();
@@ -53,7 +54,7 @@ class World {
     checkCollisionWithBottleAndEndboss() {
         this.throwableObjects.forEach((bottle) => {
             if (this.endboss.isColliding(bottle)) {
-                this.endboss.hit(10);
+                this.endboss.hit(50);
                 this.statusbarEndboss.setPercentage(this.endboss.energy);
             }
         })
@@ -83,7 +84,7 @@ class World {
 
     collisionWithEnemies(enemy) {
         if (this.character.isColliding(enemy)) {
-            if (!this.character.isAboveGround()) {
+            if (!this.character.isAboveGround() && this.dead == false) {
                 this.character.hit(5);
             }
             this.statusbarHealth.setPercentage(this.character.energy);
@@ -99,13 +100,13 @@ class World {
     jumpingOnChicken(enemy, index) {
         if (this.collisionDetected(enemy)) {
             enemy.hit(5);
+            this.dead = true;
 
             setTimeout(() => {
                 this.level.chickens.splice(index, 1);
             }, 1000);
         }
-    }
-    
+    }    
 
     checkJumpingOnBabyChicken() {
         this.level.babyChickens.forEach((enemy, index) => {
@@ -117,6 +118,7 @@ class World {
     jumpingOnBabyChicken(enemy, index) {
         if (this.collisionDetected(enemy)) {
             enemy.hit(5);
+            this.dead == true;
 
             setTimeout(() => {
                 this.level.babyChickens.splice(index, 1);
@@ -193,10 +195,10 @@ class World {
 
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.chickens);
         this.addObjectsToMap(this.level.babyChickens);
         this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.level.bottles);
         this.addToMap(this.endboss);
         this.addObjectsToMap(this.throwableObjects);
 

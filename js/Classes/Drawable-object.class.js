@@ -5,6 +5,13 @@ class DrawableObject {
     imagesCache = {};
     currentImage = 0;
 
+    offset = {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0
+    }
+
 
     //Methode um Bilder zu laden
     loadImage(path) {
@@ -37,4 +44,5 @@ class DrawableObject {
             ctx.stroke();
         }
     }
+
 }

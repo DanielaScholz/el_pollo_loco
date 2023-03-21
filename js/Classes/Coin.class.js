@@ -2,6 +2,13 @@ class Coin extends MoveableObject {
     height = 140;
     width = 140;
 
+    offset = {
+        top: 40,
+        bottom: 40,
+        left: 40,
+        right: 40
+    }
+
     IMAGES=[
         'img/8_coin/coin_1.png',
         'img/8_coin/coin_2.png',
@@ -16,7 +23,7 @@ class Coin extends MoveableObject {
     }
 
     animateCoins(){
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.playImagesforAnimation(this.IMAGES);
         }, 400);
     }

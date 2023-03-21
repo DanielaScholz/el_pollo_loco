@@ -2,6 +2,13 @@ class Bottle extends MoveableObject{
     height = 80;
     width = 60;
 
+    offset = {
+        top: 30,
+        bottom: 30,
+        left: 30,
+        right: 30
+    }
+
     position_y = 350;
 
     IMAGE_BOTTLE_GROUND = [

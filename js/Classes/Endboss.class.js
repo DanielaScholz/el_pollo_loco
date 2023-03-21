@@ -57,15 +57,22 @@ class Endboss extends MoveableObject {
     }
 
     animateEndboss() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (world.character.position_x < 1300) {
                 this.moveLeft();
             }
+            if (world.character.position_x < 1300 && this.isDead()) {
+                this.speed = 0;
+            }
         }, 1000 / 60);
 
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (this.isDead()) {
                 this.playImagesforAnimation(this.IMAGES_DEAD);
+                setTimeout(() => {
+                    showEndScreen();
+                    stopGame();
+                }, 1500);
             } else if (this.isHurt()) {
                 this.playImagesforAnimation(this.IMAGES_HURT);
             } else if (world.character.position_x > 1400){

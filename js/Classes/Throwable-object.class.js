@@ -34,14 +34,19 @@ class ThrowableObject extends MoveableObject {
         this.applyGravity();
         this.animationOfBottle();
 
-        setInterval(() => {
-            this.position_x += 10;
+        setStoppableInterval(() => {
+            if (world.character.mirroring == true) {
+                this.position_x -= 10;
+            } else {
+                this.position_x += 10;
+            }
+
         }, 25);
 
     }
 
     animationOfBottle(){
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (this.position_y > 240) {
                 this.playImagesforAnimation(this.IMAGE_BOTTLE_SPLASH);
             } else {
