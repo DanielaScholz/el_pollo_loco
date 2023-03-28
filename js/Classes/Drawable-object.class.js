@@ -10,7 +10,7 @@ class DrawableObject {
         bottom: 0,
         left: 0,
         right: 0
-    }
+    };
 
 
     //Methode um Bilder zu laden
@@ -35,14 +35,15 @@ class DrawableObject {
     }
 
     //Methode um Rechtecke um die Objekte zu zeichen um Kollision erkennbar zu machen -> nur für die Spielentwicklung notwendig
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof BabyChicken) { // Bedingung gilt nur für Instanz Character & Chicken
-            ctx.beginPath();
-            ctx.lineWidth = "4";
-            ctx.strokeStyle = "green";
-            ctx.rect(this.position_x, this.position_y, this.width, this.height);
-            ctx.stroke();
-        }
-    }
+    // drawFrame(ctx) {
+    //     if (this instanceof Character || this instanceof Chicken || this instanceof BabyChicken) { // Bedingung gilt nur für Instanz Character & Chicken
+    //         ctx.beginPath();
+    //         ctx.lineWidth = "4";
+    //         ctx.strokeStyle = "green";
+    //         ctx.rect(this.position_x, this.position_y, this.width, this.height);
+    //         ctx.stroke();
+    //     }
+    // }
+
 
 }

@@ -74,6 +74,7 @@ class World {
         })
     }
 
+    
     checkCollisionWithEndboss() {
         if (this.character.isColliding(this.endboss)) {
             this.character.hit(10);
@@ -84,46 +85,39 @@ class World {
 
     collisionWithEnemies(enemy) {
         if (this.character.isColliding(enemy)) {
-            if (!this.character.isAboveGround() && this.dead == false) {
+            if (!this.character.isAboveGround() && enemy.dead == false) {
                 this.character.hit(5);
             }
             this.statusbarHealth.setPercentage(this.character.energy);
         }
     }
 
+
     checkJumpingOnChicken() {
         this.level.chickens.forEach((enemy, index) => {
-            this.jumpingOnChicken(enemy, index);
+            if (this.collisionDetected(enemy)) {
+                enemy.hit(5);
+                enemy.dead = true;
+
+                setTimeout(() => {
+                    this.level.chickens.splice(index, 1)
+                }, 1000);
+            }
         })
     }
-
-    jumpingOnChicken(enemy, index) {
-        if (this.collisionDetected(enemy)) {
-            enemy.hit(5);
-            this.dead = true;
-
-            setTimeout(() => {
-                this.level.chickens.splice(index, 1);
-            }, 1000);
-        }
-    }    
+  
 
     checkJumpingOnBabyChicken() {
         this.level.babyChickens.forEach((enemy, index) => {
-            this.jumpingOnBabyChicken(enemy, index);
+            if (this.collisionDetected(enemy)) {
+                enemy.hit(5);
+                enemy.dead = true;
+
+                setTimeout(() => {
+                    this.level.babyChickens.splice(index, 1)
+                }, 1000);
+            }
         })
-    }
-
-
-    jumpingOnBabyChicken(enemy, index) {
-        if (this.collisionDetected(enemy)) {
-            enemy.hit(5);
-            this.dead == true;
-
-            setTimeout(() => {
-                this.level.babyChickens.splice(index, 1);
-            }, 1000);
-        }
     }
 
 
@@ -160,7 +154,7 @@ class World {
         }
 
         if (this.character.coins == 100) {
-            console.log('full')
+            console.log('full');
         }
     }
 
@@ -173,7 +167,7 @@ class World {
         }
 
         if (this.character.bottles == 100) {
-            console.log('full')
+            console.log('full');
         }
     }
 
@@ -228,7 +222,7 @@ class World {
     addToMap(mO) {
         this.mirrorImage(mO); //Methode um Bild zu spiegeln
         mO.draw(this.ctx);
-        mO.drawFrame(this.ctx); //zeichnet Rahmen um Objekte
+            // mO.drawFrame(this.ctx); //zeichnet Rahmen um Objekte
         this.mirrorImageBack(mO); //Methode um Bild zu zurückzuspiegeln
     }
 
