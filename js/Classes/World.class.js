@@ -7,7 +7,8 @@ class World {
     mirroring = false; //Spiegelung von Objekten beim Rückwertsgehen
     camera_x = 0;
     level_end_position_x = 2157;
-    dead = false;
+    dead = false; //Variable zum Auslesen, ob Gegner tot sind
+    chicken_audio = new Audio ('audio/chicken.mp3')
 
     level = level1;
 
@@ -54,6 +55,7 @@ class World {
     checkCollisionWithBottleAndEndboss() {
         this.throwableObjects.forEach((bottle) => {
             if (this.endboss.isColliding(bottle)) {
+                this.chicken_audio.play()
                 this.endboss.hit(50);
                 this.statusbarEndboss.setPercentage(this.endboss.energy);
             }
@@ -96,6 +98,7 @@ class World {
     checkJumpingOnChicken() {
         this.level.chickens.forEach((enemy, index) => {
             if (this.collisionDetected(enemy)) {
+                this.chicken_audio.play()
                 enemy.hit(5);
                 enemy.dead = true;
 
@@ -110,6 +113,7 @@ class World {
     checkJumpingOnBabyChicken() {
         this.level.babyChickens.forEach((enemy, index) => {
             if (this.collisionDetected(enemy)) {
+                this.chicken_audio.play()
                 enemy.hit(5);
                 enemy.dead = true;
 
@@ -185,8 +189,8 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clearRect-> cleart beim Aktualisieren das Canvas, da sich sonst Figuren nicht bewegen würden
+        
         this.ctx.translate(this.camera_x, 0); //mit translate(x,y) wird das Canvas nach links verschoben
-
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.bottles);
@@ -195,16 +199,16 @@ class World {
         this.addObjectsToMap(this.level.coins);
         this.addToMap(this.endboss);
         this.addObjectsToMap(this.throwableObjects);
-
         this.ctx.translate(-this.camera_x, 0); //Kamera verschiebt sich zurück
+
         this.addToMap(this.statusbarHealth);
         this.addToMap(this.statusbarCoins);
         this.addToMap(this.statusbarBottles);
-        this.addToMap(this.statusbarEndboss);
+        if (this.endboss.position_x < 1400 || this.character.position_x > 1000) {
+            this.addToMap(this.statusbarEndboss);}
+
         this.ctx.translate(this.camera_x, 0); //Kamera verschiebt sich vor
-
         this.addToMap(this.character);
-
         this.ctx.translate(-this.camera_x, 0); //nachdem der Hintergrund, Wolken, Enemies, Pepe gezeichnet wurden, verschiebt sich das Canvas wieder zurück
 
         let self = this; //Trick, weil THIS nicht funktioniert
@@ -222,7 +226,7 @@ class World {
     addToMap(mO) {
         this.mirrorImage(mO); //Methode um Bild zu spiegeln
         mO.draw(this.ctx);
-            // mO.drawFrame(this.ctx); //zeichnet Rahmen um Objekte
+        mO.drawFrame(this.ctx); //zeichnet Rahmen um Objekte
         this.mirrorImageBack(mO); //Methode um Bild zu zurückzuspiegeln
     }
 

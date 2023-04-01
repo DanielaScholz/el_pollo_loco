@@ -5,8 +5,8 @@ class BabyChicken extends MoveableObject{
     energy = 5;
 
     offset = {
-        top: 10,
-        bottom: 10,
+        top: 15,
+        bottom: 15,
         left: 5,
         right: 5
     }

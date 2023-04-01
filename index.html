@@ -48,9 +48,9 @@
             <img src="./img/9_intro_outro_screens/game_over/game over!.png" alt="image of the end-screen">
         </div>
 
-            <canvas id="canvas" class="d-none" width="720" height="480"></canvas>
+        <canvas id="canvas" class="d-none" width="720" height="480"></canvas>
 
-            <div class="keyboard-control-container">
+            <div id="keyboard-control-container" class="keyboard-control-container">
                 <div class="keyboard-icons">
                     <img src="img/10_keyboard_icons/arrow-left.png" alt="arrow left">
                     <span>Go left</span>
@@ -77,14 +77,17 @@
 
                 <div class="keyboard-icons" onclick="fullscreen()">
                     <img src="img/10_keyboard_icons/fullscreen-12-32.png" alt="fullscreen icon">
-                </div>
+                </div>                
             </div>
 
         
 
-        <div class="button-container">
-            <button id="start-btn" class="start-btn" onclick="init()">START</button>
-            <button id="restart-btn" class="start-btn d-none" onclick="reStartGame()">RESTART</button>
+        <div class="start-button-container">
+            <button id="start-btn" class="btn" onclick="init()">START</button>
+        </div>
+
+        <div class="restart-button-container">
+            <button id="restart-btn" class="btn d-none" onclick="reStartGame()">RESTART</button>
         </div>
     </main>
 

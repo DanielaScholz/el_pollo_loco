@@ -5,8 +5,8 @@ class Chicken extends MoveableObject {
     energy = 5;
 
     offset = {
-        top: 20,
-        bottom: 20,
+        top: 25,
+        bottom: 10,
         left: 10,
         right: 10
     }
