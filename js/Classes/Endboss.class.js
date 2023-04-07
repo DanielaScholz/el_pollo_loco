@@ -2,7 +2,7 @@ class Endboss extends MoveableObject {
     height = 300;
     width = 170;
     position_y = 160;
-    speed = 0.8;
+    speed = 0.7;
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -36,7 +36,7 @@ class Endboss extends MoveableObject {
     IMAGES_HURT = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
-        'img/4_enemie_boss_chicken/4_hurt/G23.png',
+        'img/4_enemie_boss_chicken/4_hurt/G23.png'
     ];
 
     IMAGES_DEAD = [
@@ -52,16 +52,16 @@ class Endboss extends MoveableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.position_x = 2000;
+        this.position_x = 2157; //2157 -> das Ende des Canvas
         this.animateEndboss();
     }
 
     animateEndboss() {
         setStoppableInterval(() => {
-            if (world.character.position_x < 1300) {
+            if (world.character.position_x > 719 && this.position_x > 1850) {
                 this.moveLeft();
             }
-            if (world.character.position_x < 1300 && this.isDead()) {
+            if (world.character.position_x > 719 && this.isDead()) {
                 this.speed = 0;
             }
         }, 1000 / 60);
@@ -73,14 +73,17 @@ class Endboss extends MoveableObject {
                     showEndScreen();
                     stopGame();
                 }, 1500);
-            } else if (this.isHurt()) {
-                this.playImagesforAnimation(this.IMAGES_HURT);
-            } else if (world.character.position_x > 1400){
-                console.log('alert');
-                this.playImagesforAnimation(this.IMAGES_ALERT);
-            } else if (world.character.position_x < 1300) {
-                console.log('walking');
+            } else if (world.character.position_x > 719 && this.position_x > 1850) {
+                console.log('enboss walking');
                 this.playImagesforAnimation(this.IMAGES_WALKING);
+            } else if (world.character.position_x < 1450 && this.position_x < 1850) {
+                console.log('endboss alert');
+                this.playImagesforAnimation(this.IMAGES_ALERT);
+            } else if (world.character.position_x > 1450 && this.position_x < 1850) {
+                this.playImagesforAnimation(this.IMAGES_ATTACK);
+            }
+             if (this.isHurt()) {
+                this.playImagesforAnimation(this.IMAGES_HURT);
             }
         }, 300);
     }

@@ -6,7 +6,7 @@ class World {
     keyboard;
     mirroring = false; //Spiegelung von Objekten beim Rückwertsgehen
     camera_x = 0;
-    level_end_position_x = 2157;
+    level_end_position_x = 2876;
     dead = false; //Variable zum Auslesen, ob Gegner tot sind
     chicken_audio = new Audio ('audio/chicken.mp3')
 
@@ -56,7 +56,7 @@ class World {
         this.throwableObjects.forEach((bottle) => {
             if (this.endboss.isColliding(bottle)) {
                 this.chicken_audio.play()
-                this.endboss.hit(50);
+                this.endboss.hit(10);
                 this.statusbarEndboss.setPercentage(this.endboss.energy);
             }
         })
