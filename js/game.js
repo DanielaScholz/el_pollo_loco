@@ -9,6 +9,7 @@ async function init() {
     await startGame();
     await hideStartScreen();
     playBgAudio();
+    mobileKeyboardEvents();
 }
 
 
@@ -55,6 +56,76 @@ function reStartGame() {
 }
 
 
+// FULLSCREEN
+function fullscreen() {
+    let isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+        (document.msFullscreenElement && document.msFullscreenElement !== null);
+
+    let docElm = document.documentElement;
+    if (!isInFullScreen) {
+        enterFullscreen(docElm);
+        document.getElementById('canvas').classList.add('fullscreen-height', 'fullscreen-width');
+        document.getElementById('start-screen').classList.add('fullscreen-height', 'fullscreen-width');
+        document.getElementById('end-screen').classList.add('fullscreen-height', 'fullscreen-width');
+        document.getElementById('keyboard-control-container').classList.add('fullscreen-width')
+
+    } else {
+        document.getElementById('canvas').classList.remove('fullscreen-height', 'fullscreen-width');
+        document.getElementById('start-screen').classList.remove('fullscreen-height', 'fullscreen-width');
+        document.getElementById('end-screen').classList.remove('fullscreen-height', 'fullscreen-width');
+        document.getElementById('keyboard-control-container').classList.remove('fullscreen-width');
+        exitFullscreen();
+    }
+}
+
+
+function enterFullscreen(docElm) {
+    if (docElm.requestFullscreen) {
+        docElm.requestFullscreen();
+    } else if (docElm.mozRequestFullScreen) {
+        docElm.mozRequestFullScreen();
+    } else if (docElm.webkitRequestFullScreen) {
+        docElm.webkitRequestFullScreen();
+    } else if (docElm.msRequestFullscreen) {
+        docElm.msRequestFullscreen();
+    }
+}
+
+
+function exitFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+}
+
+
+function toggleAudio() {
+    let audio = document.getElementById('audio');
+    audio.classList.toggle('audio-icon-off');
+
+    if (audio.classList.contains('audio-icon-off')) {
+        background_audio.pause();
+    } else if (audio.classList.contains('audio-icon-on')) {
+        background_audio.play();
+    }
+}
+
+
+function playBgAudio() {
+    background_audio.volume = 0.2;
+    background_audio.loop = true;
+    background_audio.play();
+}
+
+//keyevents
 window.addEventListener('keydown', (event) => {
     if (event.code == 'Space') {
         keyboard.SPACE = true;
@@ -80,7 +151,6 @@ window.addEventListener('keydown', (event) => {
         keyboard.D = true;
     }
 });
-
 
 window.addEventListener('keyup', (event) => {
     if (event.code == 'Space') {
@@ -108,78 +178,47 @@ window.addEventListener('keyup', (event) => {
     }
 });
 
-// FULLSCREEN
-function fullscreen() {
-    let isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
-        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
-        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
-        (document.msFullscreenElement && document.msFullscreenElement !== null);
+//mobile keyevents
+function mobileKeyboardEvents() {
+    document.getElementById('btnLeft').addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        keyboard.LEFT = true;
+    });
 
-    let docElm = document.documentElement;
-    if (!isInFullScreen) {
-        enterFullscreen(docElm);
-        document.getElementById('canvas').classList.add('fullscreen-height', 'fullscreen-width');
-        document.getElementById('start-screen').classList.add('fullscreen-height', 'fullscreen-width');
-        document.getElementById('end-screen').classList.add('fullscreen-height', 'fullscreen-width');
-        document.getElementById('keyboard-control-container').classList.add('fullscreen-width')
+    document.getElementById('btnLeft').addEventListener('touchend', (event) => {
+        event.preventDefault();
+        keyboard.LEFT = false;
+    })
 
-    } else {
-        document.getElementById('canvas').classList.remove('fullscreen-height', 'fullscreen-width');
-        document.getElementById('start-screen').classList.remove('fullscreen-height', 'fullscreen-width');
-        document.getElementById('end-screen').classList.remove('fullscreen-height', 'fullscreen-width');
-        document.getElementById('keyboard-control-container').classList.remove('fullscreen-width');
-        exitFullscreen();
-    }
+    document.getElementById('btnRight').addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        keyboard.RIGHT = true;
+    });
 
+    document.getElementById('btnRight').addEventListener('touchend', (event) => {
+        event.preventDefault();
+        keyboard.RIGHT = false;
+    })
+
+    document.getElementById('btnJump').addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        keyboard.SPACE = true;
+    });
+
+    document.getElementById('btnJump').addEventListener('touchend', (event) => {
+        event.preventDefault();
+        keyboard.SPACE = false;
+    })
+
+    document.getElementById('btnThrow').addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        keyboard.D = true;
+    });
+
+    document.getElementById('btnThrow').addEventListener('touchend', (event) => {
+        event.preventDefault();
+        keyboard.D = false;
+    })
 }
 
-function enterFullscreen(docElm) {
-    if (docElm.requestFullscreen) {
-        docElm.requestFullscreen();
-    } else if (docElm.mozRequestFullScreen) {
-        docElm.mozRequestFullScreen();
-    } else if (docElm.webkitRequestFullScreen) {
-        docElm.webkitRequestFullScreen();
-    } else if (docElm.msRequestFullscreen) {
-        docElm.msRequestFullscreen();
-    }
-}
 
-function exitFullscreen() {
-    if (document.exitFullscreen) {
-        document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-    } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-    }
-}
-
-function toggleAudio() {
-    let audio = document.getElementById('audio');
-    audio.classList.toggle('audio-icon-off');
-
-    if (audio.classList.contains('audio-icon-off')) {
-        background_audio.pause();
-    } else if (audio.classList.contains('audio-icon-on')) {
-        background_audio.play();
-    } 
-}
-
-function playBgAudio() {
-    background_audio.volume = 0.2;
-    background_audio.loop = true;
-    background_audio.play();
-}
-
-// function audioOn {
-//     document.getElementById('audioOff').classList.remove('audio-icon-off');
-//     document.getElementById('audioOff').classList.add('audio-icon-on');
-// }
-
-// function audioOff {
-//     document.getElementById('audioOn').classList.remove('audio-icon-on');
-//     document.getElementById('audioOn').classList.add('audio-icon-off');
-// }

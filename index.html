@@ -37,7 +37,8 @@
 </head>
 
 <body>
-    <img class="background-image" src="./img/10_keyboard_icons/bg1.png" alt="">
+    <img class="background-image" src="./img/11_page_background/bg1.png" alt="">
+    <div class="rotate-screen">Rotate your device</div>
 
     <main id="fullscreen">
         <div id="start-screen" class="screen">
@@ -75,9 +76,21 @@
                     <div id="audio" class="audio-icon-on"></div>
                 </div>
 
-                <div class="keyboard-icons" onclick="fullscreen()">
+                <div class="keyboard-icons fullscreen-icon" onclick="fullscreen()">
                     <img src="img/10_keyboard_icons/fullscreen-12-32.png" alt="fullscreen icon">
                 </div>                
+            </div>
+
+            <div class="keyboard-control-container-mobile d-none">
+                <div class="right-panel">
+                    <img id="btnLeft" src="img/10_keyboard_icons/arrow-left.png" alt="arrow left">
+                    <img id="btnRight" src="img/10_keyboard_icons/arrow-right.png" alt="arrow right">
+                </div>
+                <div class="left-panel">
+                    <img id="btnJump" src="img/10_keyboard_icons/arrow-up.png" alt="arrow up">
+                    <img id="btnThrow" src="img/10_keyboard_icons/throw.png" alt="throw">
+                </div>
+
             </div>
 
         
@@ -89,8 +102,16 @@
         <div class="restart-button-container">
             <button id="restart-btn" class="btn d-none" onclick="reStartGame()">RESTART</button>
         </div>
-    </main>
 
+        <!-- <div class="legal-container">
+            <a href="" class="legal-info">Impressum</a>
+            <div>|</div>
+            <a href="" class="legal-info">Datenschutz</a>
+        </div> -->
+    </main>
+    
+
+     
 </body>
 
 </html>
