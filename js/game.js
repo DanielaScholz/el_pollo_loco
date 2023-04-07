@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let intervalIds = [];
+let audioMuted = false;
 background_audio = new Audio('audio/background_audio.mp3');
 
 async function init() {
@@ -70,7 +71,6 @@ function fullscreen() {
         document.getElementById('start-screen').classList.add('fullscreen-height', 'fullscreen-width');
         document.getElementById('end-screen').classList.add('fullscreen-height', 'fullscreen-width');
         document.getElementById('keyboard-control-container').classList.add('fullscreen-width')
-
     } else {
         document.getElementById('canvas').classList.remove('fullscreen-height', 'fullscreen-width');
         document.getElementById('start-screen').classList.remove('fullscreen-height', 'fullscreen-width');
@@ -109,20 +109,26 @@ function exitFullscreen() {
 
 function toggleAudio() {
     let audio = document.getElementById('audio');
-    audio.classList.toggle('audio-icon-off');
-
-    if (audio.classList.contains('audio-icon-off')) {
+    if (audio.classList.contains('audio-icon-on')) {
+        audioMuted = true;
+        audio.classList.remove('audio-icon-on');
+        audio.classList.add('audio-icon-off');
         background_audio.pause();
-    } else if (audio.classList.contains('audio-icon-on')) {
+    } else if (audio.classList.contains('audio-icon-off')){
+        audioMuted = false;
+        audio.classList.remove('audio-icon-off');
+        audio.classList.add('audio-icon-on');
         background_audio.play();
     }
 }
 
 
 function playBgAudio() {
-    background_audio.volume = 0.2;
-    background_audio.loop = true;
-    background_audio.play();
+    if (document.getElementById('audio').classList.contains('audio-icon-on')) {
+        background_audio.volume = 0.2;
+        background_audio.loop = true;
+        background_audio.play();
+    } 
 }
 
 //keyevents

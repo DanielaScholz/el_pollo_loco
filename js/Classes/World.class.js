@@ -55,7 +55,9 @@ class World {
     checkCollisionWithBottleAndEndboss() {
         this.throwableObjects.forEach((bottle) => {
             if (this.endboss.isColliding(bottle)) {
-                this.chicken_audio.play()
+                if (!audioMuted) {
+                    this.chicken_audio.play()
+                }
                 this.endboss.hit(10);
                 this.statusbarEndboss.setPercentage(this.endboss.energy);
             }
@@ -98,7 +100,9 @@ class World {
     checkJumpingOnChicken() {
         this.level.chickens.forEach((enemy, index) => {
             if (this.collisionDetected(enemy)) {
-                this.chicken_audio.play()
+                if (!audioMuted) {
+                    this.chicken_audio.play()
+                }
                 enemy.hit(5);
                 enemy.dead = true;
 
@@ -113,7 +117,9 @@ class World {
     checkJumpingOnBabyChicken() {
         this.level.babyChickens.forEach((enemy, index) => {
             if (this.collisionDetected(enemy)) {
-                this.chicken_audio.play()
+                if (!audioMuted) {
+                    this.chicken_audio.play() 
+                }
                 enemy.hit(5);
                 enemy.dead = true;
 

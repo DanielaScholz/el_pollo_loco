@@ -5,7 +5,7 @@ class Character extends MoveableObject {
     width = 120;
     speed = 10;
 
-    position_y = 80;
+    position_y = 100;
 
     offset = {
         top: 120,
@@ -145,7 +145,9 @@ class Character extends MoveableObject {
     pepeJumps() {
         if (this.world.keyboard.SPACE && !this.isAboveGround()) {
             this.rate_of_fall = 25;
-            this.jumping_audio.play();
+            if (!audioMuted) {
+                this.jumping_audio.play();
+            }
         }
     }
 
