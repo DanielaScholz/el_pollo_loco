@@ -13,7 +13,7 @@ class Bottle extends MoveableObject{
 
     IMAGE_BOTTLE_GROUND = [
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
-    ]
+    ];
 
     constructor(){
         super().loadImage(this.IMAGE_BOTTLE_GROUND[0]);

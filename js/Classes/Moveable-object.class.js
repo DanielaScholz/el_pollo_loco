@@ -9,8 +9,6 @@ class MoveableObject extends DrawableObject {
     dead = false;
 
 
-    
-
     moveRight() {
         this.position_x += this.speed;
     }
@@ -29,6 +27,7 @@ class MoveableObject extends DrawableObject {
         this.img = this.imagesCache[path];
         this.currentImage++;
     }
+
 
     applyGravity() {
         setInterval(() => {
@@ -56,21 +55,6 @@ class MoveableObject extends DrawableObject {
         this.position_y + this.offset.top < mO.position_y + mO.height - mO.offset.bottom;
     }
 
-    // isColliding(mO){
-    //     return this.position_x + this.width > mO.position_x &&
-    //     this.position_y + this.height > mO.position_y &&
-    //     this.position_x < mO.position_x && 
-    //     this.position_y < mO.position_y + mO.height;
-    // }
-
-    // Bessere Formel zur Kollisionsberechnung (Genauer)
-    // isColliding(mO) {
-    //     return (this.position_x + this.width) >= mO.position_x && this.position_x <= (mO.position_x + mO.width) &&
-    //         (this.position_y + this.offsetY + this.height) >= mO.position_y &&
-    //         (this.position_y + this.offsetY) <= (mO.position_y + mO.height) &&
-    //         mO.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
-
-    // }
 
     hit(damage){
         this.energy -= damage;
@@ -92,9 +76,4 @@ class MoveableObject extends DrawableObject {
     isDead(){
         return this.energy == 0;
     }
-    
-
-   
-
-
 }

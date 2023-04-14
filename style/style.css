@@ -61,6 +61,7 @@ main {
         -1px -1px 12px black;
     z-index: 0;
     background-image: url(../img/11_page_background/rotate-pic.png);
+    background-repeat: round;
 }
 
 /* BUTTON-STYLING */
@@ -75,7 +76,7 @@ main {
 }
 
 .btn {
-padding: 20px;
+    padding: 20px;
     font-weight: bold;
     font-family: 'Rye', Arial, Helvetica, sans-serif;
     font-size: 24px;
@@ -217,13 +218,13 @@ padding: 20px;
     color: #354F0D;
 }
 
-.legal-info:hover{
+.legal-info:hover {
     color: white;
 }
 
 /* MEDIA-QUERIES */
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 1024px) {
     main {
         width: 100%;
         height: 100vh;
@@ -249,7 +250,7 @@ padding: 20px;
     }
 }
 
-@media screen and (max-width: 570px) {
+@media screen and (max-width: 1024px) {
     .keyboard-control-container {
         display: none;
     }
@@ -290,7 +291,7 @@ padding: 20px;
     }
 }
 
-@media screen and (max-width: 570px) and (orientation: portrait) {
+@media screen and (max-width: 1024px) and (orientation: portrait) {
     .rotate-screen {
         display: flex;
         z-index: 10;
@@ -298,10 +299,13 @@ padding: 20px;
 
 }
 
-@media screen and (max-width: 426px) {
+@media screen and (max-height: 426px) {
     .btn {
-padding: 10px;
+        padding: 10px;
         font-size: 16px;
-        margin-top: 20px;
+    }
+
+    .restart-button-container {
+        bottom: 90px;
     }
 }

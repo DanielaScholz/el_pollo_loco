@@ -55,36 +55,45 @@ class Endboss extends MoveableObject {
         this.position_x = 2157; //2157 -> das Ende des Canvas
         this.animateEndboss();
     }
+    
 
     animateEndboss() {
+        this.intervalForPositionSettings();
+        this.intervalForAnimation();
+    }
+
+
+    intervalForPositionSettings(){
         setStoppableInterval(() => {
             if (world.character.position_x > 719 && this.position_x > 1850) {
-                this.moveLeft();
-            }
+                this.moveLeft();}
             if (world.character.position_x > 719 && this.isDead()) {
-                this.speed = 0;
-            }
+                this.speed = 0;}
         }, 1000 / 60);
+    }
 
+
+    intervalForPositionSettings(){
         setStoppableInterval(() => {
             if (this.isDead()) {
                 this.playImagesforAnimation(this.IMAGES_DEAD);
-                setTimeout(() => {
-                    showEndScreen();
-                    stopGame();
-                }, 1500);
+                this.showEndOfGame();
             } else if (world.character.position_x > 719 && this.position_x > 1850) {
-                console.log('enboss walking');
                 this.playImagesforAnimation(this.IMAGES_WALKING);
             } else if (world.character.position_x < 1450 && this.position_x < 1850) {
-                console.log('endboss alert');
                 this.playImagesforAnimation(this.IMAGES_ALERT);
             } else if (world.character.position_x > 1450 && this.position_x < 1850) {
-                this.playImagesforAnimation(this.IMAGES_ATTACK);
-            }
+                this.playImagesforAnimation(this.IMAGES_ATTACK);}
              if (this.isHurt()) {
-                this.playImagesforAnimation(this.IMAGES_HURT);
-            }
+                this.playImagesforAnimation(this.IMAGES_HURT);}
         }, 300);
+    }
+
+
+    showEndOfGame(){
+        setTimeout(() => {
+            showEndScreen();
+            stopGame();
+        }, 1500);
     }
 }

@@ -11,15 +11,15 @@ class StatusbarEndboss extends Statusbar {
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png' 
     ];
 
+
     constructor(){
         super().mirrorStatusbar();
         this.loadImages(this.IMAGES);
         this.setPercentage(100);
     }
 
+
     mirrorStatusbar(){
         this.mirroring = true;
     }
-
-
 }

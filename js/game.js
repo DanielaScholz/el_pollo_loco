@@ -72,12 +72,17 @@ function fullscreen() {
         document.getElementById('end-screen').classList.add('fullscreen-height', 'fullscreen-width');
         document.getElementById('keyboard-control-container').classList.add('fullscreen-width')
     } else {
-        document.getElementById('canvas').classList.remove('fullscreen-height', 'fullscreen-width');
-        document.getElementById('start-screen').classList.remove('fullscreen-height', 'fullscreen-width');
-        document.getElementById('end-screen').classList.remove('fullscreen-height', 'fullscreen-width');
-        document.getElementById('keyboard-control-container').classList.remove('fullscreen-width');
         exitFullscreen();
+        closeFullscreenSettings();
     }
+    
+}
+
+function closeFullscreenSettings() {
+    document.getElementById('canvas').classList.remove('fullscreen-height', 'fullscreen-width');
+    document.getElementById('start-screen').classList.remove('fullscreen-height', 'fullscreen-width');
+    document.getElementById('end-screen').classList.remove('fullscreen-height', 'fullscreen-width');
+    document.getElementById('keyboard-control-container').classList.remove('fullscreen-width');
 }
 
 
@@ -107,14 +112,14 @@ function exitFullscreen() {
 }
 
 
-function toggleAudio() {
-    let audio = document.getElementById('audio');
+function toggleAudio(device) {
+    let audio = document.getElementById(`audio-${device}`);
     if (audio.classList.contains('audio-icon-on')) {
         audioMuted = true;
         audio.classList.remove('audio-icon-on');
         audio.classList.add('audio-icon-off');
         background_audio.pause();
-    } else if (audio.classList.contains('audio-icon-off')){
+    } else if (audio.classList.contains('audio-icon-off')) {
         audioMuted = false;
         audio.classList.remove('audio-icon-off');
         audio.classList.add('audio-icon-on');
@@ -124,12 +129,17 @@ function toggleAudio() {
 
 
 function playBgAudio() {
-    if (document.getElementById('audio').classList.contains('audio-icon-on')) {
+    let comp = document.getElementById('audio-comp');
+    let mobile = document.getElementById('audio-mobile');
+    if (comp.classList.contains('audio-icon-on') && audioMuted == false || mobile.classList.contains('audio-icon-on' && audioMuted == false) ) {
         background_audio.volume = 0.2;
         background_audio.loop = true;
         background_audio.play();
-    } 
+    } else {
+        background_audio.pause();
+    }
 }
+
 
 //keyevents
 window.addEventListener('keydown', (event) => {
@@ -156,7 +166,12 @@ window.addEventListener('keydown', (event) => {
     if (event.code == 'KeyD') {
         keyboard.D = true;
     }
+
+    if (event.code == 'Escape') {
+        closeFullscreenSettings();
+        }
 });
+
 
 window.addEventListener('keyup', (event) => {
     if (event.code == 'Space') {

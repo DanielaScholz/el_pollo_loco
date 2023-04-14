@@ -7,7 +7,6 @@ class Level {
     bottles;
     
     
-
     constructor(backgroundObjects, clouds, chickens, babyChickens, coins, bottles){
         this.backgroundObjects = backgroundObjects;
         this.clouds = clouds;

@@ -8,7 +8,7 @@ class World {
     camera_x = 0;
     level_end_position_x = 2876;
     dead = false; //Variable zum Auslesen, ob Gegner tot sind
-    chicken_audio = new Audio ('audio/chicken.mp3')
+    chicken_audio = new Audio('audio/chicken.mp3')
 
     level = level1;
 
@@ -17,6 +17,7 @@ class World {
     statusbarCoins = new StatusbarCoins();
     statusbarBottles = new StatusbarBottles();
     statusbarEndboss = new StatusbarEndboss();
+
 
     constructor(canvas, keyboard) {
         this.canvas = canvas;
@@ -33,13 +34,23 @@ class World {
             this.checkCollisionsWithChicken();
             this.checkCollisionsWithBabyChicken();
             this.checkCollisionsWithCoins();
-            this.checkCollisionsWithBottles();
             this.checkCollisionWithEndboss();
-            this.checkCollisionWithBottleAndEndboss();
-            this.checkThrowableObjects();
+        }, 200);
+
+        setStoppableInterval(() => {
             this.checkJumpingOnChicken();
             this.checkJumpingOnBabyChicken();
-        }, 200);
+            this.checkThrowableObjects();
+        }, 100)
+
+        setStoppableInterval(() => {
+            this.checkCollisionsWithBottles();
+        }, 1000 / 60)
+
+        setStoppableInterval(() => {
+            this.checkThrowableObjects();
+            this.checkCollisionWithBottleAndEndboss();
+        }, 500)
     }
 
 
@@ -56,9 +67,8 @@ class World {
         this.throwableObjects.forEach((bottle) => {
             if (this.endboss.isColliding(bottle)) {
                 if (!audioMuted) {
-                    this.chicken_audio.play()
-                }
-                this.endboss.hit(10);
+                    this.chicken_audio.play();}
+                this.endboss.hit(20);
                 this.statusbarEndboss.setPercentage(this.endboss.energy);
             }
         })
@@ -78,10 +88,10 @@ class World {
         })
     }
 
-    
+
     checkCollisionWithEndboss() {
         if (this.character.isColliding(this.endboss)) {
-            this.character.hit(10);
+            this.character.hit(20);
             this.statusbarHealth.setPercentage(this.character.energy);
         }
     }
@@ -90,8 +100,7 @@ class World {
     collisionWithEnemies(enemy) {
         if (this.character.isColliding(enemy)) {
             if (!this.character.isAboveGround() && enemy.dead == false) {
-                this.character.hit(5);
-            }
+                this.character.hit(5);}
             this.statusbarHealth.setPercentage(this.character.energy);
         }
     }
@@ -100,29 +109,23 @@ class World {
     checkJumpingOnChicken() {
         this.level.chickens.forEach((enemy, index) => {
             if (this.collisionDetected(enemy)) {
-                if (!audioMuted) {
-                    this.chicken_audio.play()
-                }
+                if (!audioMuted) { this.chicken_audio.play();}
                 enemy.hit(5);
                 enemy.dead = true;
-
                 setTimeout(() => {
                     this.level.chickens.splice(index, 1)
                 }, 1000);
             }
         })
     }
-  
+
 
     checkJumpingOnBabyChicken() {
         this.level.babyChickens.forEach((enemy, index) => {
             if (this.collisionDetected(enemy)) {
-                if (!audioMuted) {
-                    this.chicken_audio.play() 
-                }
+                if (!audioMuted) {this.chicken_audio.play();}
                 enemy.hit(5);
                 enemy.dead = true;
-
                 setTimeout(() => {
                     this.level.babyChickens.splice(index, 1)
                 }, 1000);
@@ -163,9 +166,6 @@ class World {
             this.statusbarCoins.setPercentage(this.character.coins);
         }
 
-        if (this.character.coins == 100) {
-            console.log('full');
-        }
     }
 
 
@@ -174,10 +174,6 @@ class World {
             this.level.bottles.splice(index, 1);
             this.character.bottles += 20;
             this.statusbarBottles.setPercentage(this.character.bottles);
-        }
-
-        if (this.character.bottles == 100) {
-            console.log('full');
         }
     }
 
@@ -195,7 +191,7 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clearRect-> cleart beim Aktualisieren das Canvas, da sich sonst Figuren nicht bewegen würden
-        
+
         this.ctx.translate(this.camera_x, 0); //mit translate(x,y) wird das Canvas nach links verschoben
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
@@ -211,7 +207,8 @@ class World {
         this.addToMap(this.statusbarCoins);
         this.addToMap(this.statusbarBottles);
         if (this.endboss.position_x < 1400 || this.character.position_x > 1000) {
-            this.addToMap(this.statusbarEndboss);}
+            this.addToMap(this.statusbarEndboss);
+        }
 
         this.ctx.translate(this.camera_x, 0); //Kamera verschiebt sich vor
         this.addToMap(this.character);
@@ -232,7 +229,7 @@ class World {
     addToMap(mO) {
         this.mirrorImage(mO); //Methode um Bild zu spiegeln
         mO.draw(this.ctx);
-        mO.drawFrame(this.ctx); //zeichnet Rahmen um Objekte
+       //mO.drawFrame(this.ctx); //zeichnet Rahmen um Objekte, um Kollision besser abstimmen zu können
         this.mirrorImageBack(mO); //Methode um Bild zu zurückzuspiegeln
     }
 
@@ -246,11 +243,11 @@ class World {
         }
     }
 
+
     mirrorImageBack(mO) {
         if (mO.mirroring) { //Bedingung überprüft ob mO true ist
             mO.position_x = mO.position_x * -1; //Koordinate wird erneut umgekehrt, sodass das Objekt wieder an seinen urpsrünglichen Standort ist
             this.ctx.restore(); // der zuvor gespeicherte Zustand wird wiederhergestellt
         }
     }
-
 }

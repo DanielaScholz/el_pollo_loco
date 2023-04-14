@@ -11,7 +11,6 @@ class BabyChicken extends MoveableObject{
         right: 5
     }
 
-    
     IMAGES_WALKING= [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
@@ -32,6 +31,7 @@ class BabyChicken extends MoveableObject{
         this.animateChicken();
     }
 
+
     animateChicken(){
         setStoppableInterval(() => {
             this.babyChickenWalksLeft();
@@ -41,8 +41,7 @@ class BabyChicken extends MoveableObject{
             if (this.isDead()) {
                 this.playImagesforAnimation(this.IMAGES_DEAD);
             } else {
-                this.playImagesforAnimation(this.IMAGES_WALKING);
-            }
+                this.playImagesforAnimation(this.IMAGES_WALKING);}
         }, 300);
     }
 

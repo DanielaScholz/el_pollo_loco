@@ -96,6 +96,12 @@ class Character extends MoveableObject {
 
 
     animateCharacter() {
+        this.intervalForMovement();
+        this.intervalForAnimation();
+        this.intervalForIdleAnimation();
+    }
+
+    intervalForMovement(){
         setStoppableInterval(() => {
             this.pepeWalkesRight();
             this.pepeWalkesLeft();
@@ -103,10 +109,12 @@ class Character extends MoveableObject {
             this.pepeThrowBottle();
             this.world.camera_x = - this.position_x + 100;
         }, 1000 / 60);
+    }
 
+    intervalForAnimation(){
         setStoppableInterval(() => {
             if (this.isDead()) {
-                animationPepeIsDead();
+                this.playAnimationPepeIsDead();
             } else if (this.isHurt()) {
                 this.playImagesforAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
@@ -114,34 +122,36 @@ class Character extends MoveableObject {
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) { //Bedingung: entweder Peiltaste nach rechts oder nach links wird gedrückt, damit die Bildfolge abgespielt wird
                     //Animation beim Gehen - Bildabfolge wird in einer Schleife ausgeführt, damit sich die Beine von Pepe bewegen
-                    this.playImagesforAnimation(this.IMAGES_WALKING);
-                }
+                    this.playImagesforAnimation(this.IMAGES_WALKING);}
             }
         }, 50);
+    }
 
+
+    intervalForIdleAnimation(){
         setStoppableInterval(() => {
-            if (this.pepeIsInactive) {
+            if (this.checkIfPepeIsInactive) {
                 let timePassed = new Date().getTime() - this.lastMove;
                 timePassed = timePassed / 1000;
                 if (timePassed > 5) {
                     this.playImagesforAnimation(this.IMAGES_LONG_IDLE);
                 } else if (timePassed > 2) {
-                    this.playImagesforAnimation(this.IMAGES_IDLE);
-                }
+                    this.playImagesforAnimation(this.IMAGES_IDLE);}
             }
         }, 1000)
     }
 
-    pepeIsInactive() {
+
+    checkIfPepeIsInactive() {
         return (
             !this.world.keyboard.LEFT &&
             !this.world.keyboard.RIGHT &&
             !this.world.keyboard.SPACE &&
-            !this.world.keyboard.D
-        );
+            !this.world.keyboard.D);
     }
 
-    animationPepeIsDead() {
+    
+    playAnimationPepeIsDead() {
         this.playImagesforAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
             showEndScreen();
@@ -149,14 +159,14 @@ class Character extends MoveableObject {
         }, 2000);
     }
 
+
     //Geschwindigkeit von Pepe beim Gehen -> x-Position wird beim Pfeiltaste nach rechts drücken um 10px erhöht
     //Pepe geht nach rechts
     pepeWalkesRight() {
         if (this.world.keyboard.RIGHT && this.position_x < this.world.level_end_position_x) {
             this.moveRight();
             this.mirroring = false;
-            this.lastMove = new Date().getTime();
-        }
+            this.lastMove = new Date().getTime();}
     }
 
 
@@ -164,8 +174,7 @@ class Character extends MoveableObject {
         if (this.world.keyboard.LEFT && this.position_x > 0) {
             this.moveLeft(); //Damit Pepe nach links geht wird die x-Achse reduziert beim Pfeiltaste nach links drücken
             this.mirroring = true;
-            this.lastMove = new Date().getTime();
-        }
+            this.lastMove = new Date().getTime();}
     }
 
 
@@ -174,16 +183,14 @@ class Character extends MoveableObject {
             this.rate_of_fall = 25;
             this.lastMove = new Date().getTime();
             if (!audioMuted) {
-                this.jumping_audio.play();
-            }
+                this.jumping_audio.play();}
         }
     }
 
 
     pepeThrowBottle() {
         if (this.world.keyboard.D) {
-            this.lastMove = new Date().getTime();
-        }
+            this.lastMove = new Date().getTime();}
     }
 
 }
