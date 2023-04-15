@@ -1,0 +1,21 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background-image: url(../img/11_page_background/bg1.png);
+    background-repeat: round;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+.content {
+    padding: 50px;
+}
+
+.arrow-back-box {
+    display: flex;
+    justify-content: end;
+}
+
+.arrow-back-box>img {
+    cursor: pointer;
+}

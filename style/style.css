@@ -207,11 +207,16 @@ main {
     gap: 10px;
     font-family: Arial, Helvetica, sans-serif;
     color: #354F0D;
+    font-size: 14px;
 }
 
 .legal-info {
     text-decoration: none;
     cursor: pointer;
+}
+
+.legal-info:link{
+        color: #354F0D;
 }
 
 .legal-info:visited {
@@ -220,6 +225,10 @@ main {
 
 .legal-info:hover {
     color: white;
+}
+
+.legal-info:active{
+    color: #354F0D;
 }
 
 /* MEDIA-QUERIES */
@@ -234,6 +243,10 @@ main {
     .screen {
         width: 100%;
         height: calc(100vh - 50px);
+    }
+
+    .legal-container{
+        display: none;
     }
 }
 

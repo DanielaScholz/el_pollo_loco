@@ -58,8 +58,7 @@ class World {
         if (this.keyboard.D && this.character.bottles > 0) {
             let bottle = new ThrowableObject(this.character.position_x + 100, this.character.position_y + 100);
             this.throwableObjects.push(bottle);
-            this.throwBottle();
-        }
+            this.throwBottle();}
     }
 
 
@@ -69,31 +68,27 @@ class World {
                 if (!audioMuted) {
                     this.chicken_audio.play();}
                 this.endboss.hit(20);
-                this.statusbarEndboss.setPercentage(this.endboss.energy);
-            }
+                this.statusbarEndboss.setPercentage(this.endboss.energy);}
         })
     }
 
 
     checkCollisionsWithChicken() {
         this.level.chickens.forEach((enemy) => {
-            this.collisionWithEnemies(enemy);
-        })
+            this.collisionWithEnemies(enemy);})
     }
 
 
     checkCollisionsWithBabyChicken() {
         this.level.babyChickens.forEach((enemy) => {
-            this.collisionWithEnemies(enemy);
-        })
+            this.collisionWithEnemies(enemy);})
     }
 
 
     checkCollisionWithEndboss() {
         if (this.character.isColliding(this.endboss)) {
             this.character.hit(20);
-            this.statusbarHealth.setPercentage(this.character.energy);
-        }
+            this.statusbarHealth.setPercentage(this.character.energy);}
     }
 
 
@@ -101,8 +96,7 @@ class World {
         if (this.character.isColliding(enemy)) {
             if (!this.character.isAboveGround() && enemy.dead == false) {
                 this.character.hit(5);}
-            this.statusbarHealth.setPercentage(this.character.energy);
-        }
+            this.statusbarHealth.setPercentage(this.character.energy);}
     }
 
 
@@ -114,9 +108,7 @@ class World {
                 enemy.dead = true;
                 setTimeout(() => {
                     this.level.chickens.splice(index, 1)
-                }, 1000);
-            }
-        })
+                }, 1000);}})
     }
 
 
@@ -128,9 +120,7 @@ class World {
                 enemy.dead = true;
                 setTimeout(() => {
                     this.level.babyChickens.splice(index, 1)
-                }, 1000);
-            }
-        })
+                }, 1000);}})
     }
 
 
@@ -144,18 +134,14 @@ class World {
     checkCollisionsWithCoins() {
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
-                this.collectingCoins(index);
-            }
-        })
+                this.collectingCoins(index);}})
     }
 
 
     checkCollisionsWithBottles() {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
-                this.collectingBottles(index);
-            }
-        })
+                this.collectingBottles(index);}})
     }
 
 
@@ -163,9 +149,7 @@ class World {
         if (this.character.coins < 100) {
             this.level.coins.splice(index, 1);
             this.character.coins += 20;
-            this.statusbarCoins.setPercentage(this.character.coins);
-        }
-
+            this.statusbarCoins.setPercentage(this.character.coins);}
     }
 
 
@@ -173,8 +157,7 @@ class World {
         if (this.character.bottles < 100) {
             this.level.bottles.splice(index, 1);
             this.character.bottles += 20;
-            this.statusbarBottles.setPercentage(this.character.bottles);
-        }
+            this.statusbarBottles.setPercentage(this.character.bottles);}
     }
 
 
@@ -207,8 +190,7 @@ class World {
         this.addToMap(this.statusbarCoins);
         this.addToMap(this.statusbarBottles);
         if (this.endboss.position_x < 1400 || this.character.position_x > 1000) {
-            this.addToMap(this.statusbarEndboss);
-        }
+            this.addToMap(this.statusbarEndboss);}
 
         this.ctx.translate(this.camera_x, 0); //Kamera verschiebt sich vor
         this.addToMap(this.character);

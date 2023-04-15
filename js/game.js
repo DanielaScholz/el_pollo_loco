@@ -67,16 +67,21 @@ function fullscreen() {
     let docElm = document.documentElement;
     if (!isInFullScreen) {
         enterFullscreen(docElm);
-        document.getElementById('canvas').classList.add('fullscreen-height', 'fullscreen-width');
-        document.getElementById('start-screen').classList.add('fullscreen-height', 'fullscreen-width');
-        document.getElementById('end-screen').classList.add('fullscreen-height', 'fullscreen-width');
-        document.getElementById('keyboard-control-container').classList.add('fullscreen-width')
+        openFullscreenSettings();
     } else {
         exitFullscreen();
         closeFullscreenSettings();
     }
-    
 }
+
+
+function openFullscreenSettings(){
+    document.getElementById('canvas').classList.add('fullscreen-height', 'fullscreen-width');
+    document.getElementById('start-screen').classList.add('fullscreen-height', 'fullscreen-width');
+    document.getElementById('end-screen').classList.add('fullscreen-height', 'fullscreen-width');
+    document.getElementById('keyboard-control-container').classList.add('fullscreen-width')
+}
+
 
 function closeFullscreenSettings() {
     document.getElementById('canvas').classList.remove('fullscreen-height', 'fullscreen-width');
@@ -141,7 +146,7 @@ function playBgAudio() {
 }
 
 
-//keyevents
+//Keyevents
 window.addEventListener('keydown', (event) => {
     if (event.code == 'Space') {
         keyboard.SPACE = true;
@@ -199,7 +204,8 @@ window.addEventListener('keyup', (event) => {
     }
 });
 
-//mobile keyevents
+
+//Mobile keyevents
 function mobileKeyboardEvents() {
     document.getElementById('btnLeft').addEventListener('touchstart', (event) => {
         event.preventDefault();

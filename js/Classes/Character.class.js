@@ -14,7 +14,7 @@ class Character extends MoveableObject {
         right: 30
     }
 
-    lastMove = 0
+    lastMove = 0;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -83,7 +83,7 @@ class Character extends MoveableObject {
 
 
     constructor() {
-        super().loadImage(this.IMAGES_WALKING[0]);
+        super().loadImage(this.IMAGES_IDLE[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
@@ -133,12 +133,12 @@ class Character extends MoveableObject {
             if (this.checkIfPepeIsInactive) {
                 let timePassed = new Date().getTime() - this.lastMove;
                 timePassed = timePassed / 1000;
-                if (timePassed > 5) {
+                if (timePassed > 4 && this.lastMove !== 0) {
                     this.playImagesforAnimation(this.IMAGES_LONG_IDLE);
-                } else if (timePassed > 2) {
+                } else if (timePassed > 1) {
                     this.playImagesforAnimation(this.IMAGES_IDLE);}
             }
-        }, 1000)
+        }, 100)
     }
 
 
@@ -147,7 +147,8 @@ class Character extends MoveableObject {
             !this.world.keyboard.LEFT &&
             !this.world.keyboard.RIGHT &&
             !this.world.keyboard.SPACE &&
-            !this.world.keyboard.D);
+            !this.world.keyboard.D) || 
+            !this.world.keyboard.D;
     }
 
     
@@ -190,7 +191,10 @@ class Character extends MoveableObject {
 
     pepeThrowBottle() {
         if (this.world.keyboard.D) {
-            this.lastMove = new Date().getTime();}
+            this.lastMove = new Date().getTime();
+            console.log(this.lastMove);
+        }
+
     }
 
 }

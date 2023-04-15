@@ -65,20 +65,20 @@ class Endboss extends MoveableObject {
 
     intervalForPositionSettings(){
         setStoppableInterval(() => {
-            if (world.character.position_x > 719 && this.position_x > 1850) {
+            if (world.character.position_x > 800 && this.position_x > 1850) {
                 this.moveLeft();}
-            if (world.character.position_x > 719 && this.isDead()) {
+            if (world.character.position_x > 800 && this.isDead()) {
                 this.speed = 0;}
         }, 1000 / 60);
     }
 
 
-    intervalForPositionSettings(){
+    intervalForAnimation(){
         setStoppableInterval(() => {
             if (this.isDead()) {
                 this.playImagesforAnimation(this.IMAGES_DEAD);
                 this.showEndOfGame();
-            } else if (world.character.position_x > 719 && this.position_x > 1850) {
+            } else if (world.character.position_x > 800 && this.position_x > 1850) {
                 this.playImagesforAnimation(this.IMAGES_WALKING);
             } else if (world.character.position_x < 1450 && this.position_x < 1850) {
                 this.playImagesforAnimation(this.IMAGES_ALERT);
