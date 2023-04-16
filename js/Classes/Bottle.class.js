@@ -9,7 +9,7 @@ class Bottle extends MoveableObject{
         right: 30
     }
 
-    position_y = 350;
+    position_y = 365;
 
     IMAGE_BOTTLE_GROUND = [
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'

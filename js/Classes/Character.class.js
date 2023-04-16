@@ -5,14 +5,13 @@ class Character extends MoveableObject {
     width = 120;
     speed = 10;
 
-    position_y = 100;
+    position_y = 75;
 
     offset = {
         top: 120,
         bottom: 10,
         left: 30,
-        right: 30
-    }
+        right: 30 }
 
     lastMove = 0;
 
@@ -64,7 +63,7 @@ class Character extends MoveableObject {
         'img/2_character_pepe/1_idle/idle/I-8.png',
         'img/2_character_pepe/1_idle/idle/I-9.png',
         'img/2_character_pepe/1_idle/idle/I-10.png'
-    ]
+    ];
 
     IMAGES_LONG_IDLE = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
@@ -77,7 +76,7 @@ class Character extends MoveableObject {
         'img/2_character_pepe/1_idle/long_idle/I-18.png',
         'img/2_character_pepe/1_idle/long_idle/I-19.png',
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
-    ]
+    ];
 
     jumping_audio = new Audio('audio/jumping.mp3');
 
@@ -101,6 +100,7 @@ class Character extends MoveableObject {
         this.intervalForIdleAnimation();
     }
 
+
     intervalForMovement(){
         setStoppableInterval(() => {
             this.pepeWalkesRight();
@@ -110,6 +110,7 @@ class Character extends MoveableObject {
             this.world.camera_x = - this.position_x + 100;
         }, 1000 / 60);
     }
+
 
     intervalForAnimation(){
         setStoppableInterval(() => {
@@ -192,9 +193,7 @@ class Character extends MoveableObject {
     pepeThrowBottle() {
         if (this.world.keyboard.D) {
             this.lastMove = new Date().getTime();
-            console.log(this.lastMove);
         }
-
     }
 
 }

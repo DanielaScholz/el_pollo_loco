@@ -34,6 +34,9 @@ class MoveableObject extends DrawableObject {
             if (this.isAboveGround() || this.rate_of_fall > 0) {
                 this.position_y -= this.rate_of_fall;
                 this.rate_of_fall -= this.acceleration;
+                if (this instanceof Character && this.position_y > 180) {
+                    this.position_y = 180;
+                }
             }
         }, 1000 / 25);
     }
@@ -43,7 +46,7 @@ class MoveableObject extends DrawableObject {
         if (this instanceof ThrowableObject) {
             return true;
         } else {
-            return this.position_y < 180;
+            return this.position_y < 180; //bei 180px auf der y-Achse beginnt der Boden
         }
     }
 

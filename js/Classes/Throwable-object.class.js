@@ -35,7 +35,7 @@ class ThrowableObject extends MoveableObject {
         this.animationOfBottle();
 
         setStoppableInterval(() => {
-            if (world.character.mirroring == true) {
+            if (world.mirroring == true) {
                 this.position_x -= 10;
             } else {
                 this.position_x += 10;}

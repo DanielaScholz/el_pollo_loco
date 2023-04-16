@@ -5,6 +5,7 @@ body {
     background-repeat: round;
     background-attachment: fixed;
     background-size: 100% 100%;
+    word-wrap: break-word;
 }
 
 .content {

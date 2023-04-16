@@ -170,8 +170,11 @@ main {
 .keyboard-icons img {
     height: 20px;
     width: auto;
-    cursor: pointer;
 }
+
+.keyboard-icons:nth-last-child(-n+2) img{
+    cursor: pointer;
+} 
 
 .audio-icon-on {
     background-image: url('../img/10_keyboard_icons/audio-on.png');
@@ -201,35 +204,6 @@ main {
     display: none;
 }
 
-.legal-container {
-    display: flex;
-    margin-top: 10px;
-    gap: 10px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #354F0D;
-    font-size: 14px;
-}
-
-.legal-info {
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.legal-info:link{
-        color: #354F0D;
-}
-
-.legal-info:visited {
-    color: #354F0D;
-}
-
-.legal-info:hover {
-    color: white;
-}
-
-.legal-info:active{
-    color: #354F0D;
-}
 
 /* MEDIA-QUERIES */
 
@@ -243,10 +217,6 @@ main {
     .screen {
         width: 100%;
         height: calc(100vh - 50px);
-    }
-
-    .legal-container{
-        display: none;
     }
 }
 
@@ -273,7 +243,8 @@ main {
     }
 
     .right-panel,
-    .left-panel {
+    .left-panel,
+    .middle-panel a {
         display: flex;
         align-items: center;
     }
@@ -297,6 +268,18 @@ main {
         border-radius: 100%;
         margin-left: 10px;
         margin-right: 10px;
+    }
+
+    .middle-panel{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .middle-panel img{
+        height: 20px;
+        width: auto;
     }
 
     .restart-button-container {
