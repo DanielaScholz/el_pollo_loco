@@ -6,7 +6,7 @@ class World {
     keyboard;
     mirroring = false; //Spiegelung von Objekten beim Rückwertsgehen
     camera_x = 0;
-    level_end_position_x = 2876;
+    level_end_position_x;
     dead = false; //Variable zum Auslesen, ob Gegner tot sind
     chicken_audio = new Audio('audio/chicken.mp3')
 
@@ -45,6 +45,7 @@ class World {
 
         setStoppableInterval(() => {
             this.checkCollisionsWithBottles();
+            this.checkEndbossPosition();
         }, 1000 / 60)
 
         setStoppableInterval(() => {
@@ -92,6 +93,11 @@ class World {
     }
 
 
+    checkEndbossPosition(){
+        this.level_end_position_x = this.endboss.position_x;
+    }
+
+
     collisionWithEnemies(enemy) {
         if (this.character.isColliding(enemy)) {
             if (!this.character.isAboveGround() && enemy.dead == false) {
@@ -108,7 +114,7 @@ class World {
                 enemy.dead = true;
                 setTimeout(() => {
                     this.level.chickens.splice(index, 1)
-                }, 1000);}})
+                }, 500);}})
     }
 
 
@@ -120,7 +126,7 @@ class World {
                 enemy.dead = true;
                 setTimeout(() => {
                     this.level.babyChickens.splice(index, 1)
-                }, 1000);}})
+                }, 500);}})
     }
 
 

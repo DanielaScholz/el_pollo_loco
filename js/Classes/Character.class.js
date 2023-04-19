@@ -134,9 +134,9 @@ class Character extends MoveableObject {
             if (this.checkIfPepeIsInactive) {
                 let timePassed = new Date().getTime() - this.lastMove;
                 timePassed = timePassed / 1000;
-                if (timePassed > 4 && this.lastMove !== 0) {
+                if (timePassed > 5 && this.lastMove !== 0) {
                     this.playImagesforAnimation(this.IMAGES_LONG_IDLE);
-                } else if (timePassed > 1) {
+                } else if (timePassed > 0.5) {
                     this.playImagesforAnimation(this.IMAGES_IDLE);}
             }
         }, 100)
