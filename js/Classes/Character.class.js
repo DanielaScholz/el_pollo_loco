@@ -136,7 +136,7 @@ class Character extends MoveableObject {
                 timePassed = timePassed / 1000;
                 if (timePassed > 5 && this.lastMove !== 0) {
                     this.playImagesforAnimation(this.IMAGES_LONG_IDLE);
-                } else if (timePassed > 0.5) {
+                } else if (timePassed > 0.5 && this.position_y == 180 && !this.isHurt()) {
                     this.playImagesforAnimation(this.IMAGES_IDLE);}
             }
         }, 100)
