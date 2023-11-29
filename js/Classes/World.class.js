@@ -28,7 +28,9 @@ class World {
         this.run();
     }
 
-
+    /**
+     * Runs different game loops to handle collisions and actions.
+     */
     run() {
         setStoppableInterval(() => {
             this.checkCollisionsWithChicken();
@@ -55,129 +57,202 @@ class World {
     }
 
 
+    /**
+       * Checks for throwable objects to initiate throwing actions.
+       */
     checkThrowableObjects() {
         if (this.keyboard.D && this.character.bottles > 0) {
             let bottle = new ThrowableObject(this.character.position_x + 100, this.character.position_y + 100);
             this.throwableObjects.push(bottle);
-            this.throwBottle();}
+            this.throwBottle();
+        }
     }
 
 
+    /**
+     * Checks collision between thrown bottles and the end boss.
+     */
     checkCollisionWithBottleAndEndboss() {
         this.throwableObjects.forEach((bottle) => {
             if (this.endboss.isColliding(bottle)) {
                 if (!audioMuted) {
-                    this.chicken_audio.play();}
+                    this.chicken_audio.play();
+                }
                 this.endboss.hit(20);
-                this.statusbarEndboss.setPercentage(this.endboss.energy);}
+                this.statusbarEndboss.setPercentage(this.endboss.energy);
+            }
         })
     }
 
 
+    /**
+    * Checks collisions with chicken enemies.
+    */
     checkCollisionsWithChicken() {
         this.level.chickens.forEach((enemy) => {
-            this.collisionWithEnemies(enemy);})
+            this.collisionWithEnemies(enemy);
+        })
     }
 
 
+    /**
+     * Checks collisions with baby chicken enemies.
+     */
     checkCollisionsWithBabyChicken() {
         this.level.babyChickens.forEach((enemy) => {
-            this.collisionWithEnemies(enemy);})
+            this.collisionWithEnemies(enemy);
+        })
     }
 
 
+    /**
+     * Checks collision with the end boss.
+     */
     checkCollisionWithEndboss() {
         if (this.character.isColliding(this.endboss)) {
             this.character.hit(20);
-            this.statusbarHealth.setPercentage(this.character.energy);}
+            this.statusbarHealth.setPercentage(this.character.energy);
+        }
     }
 
 
-    checkEndbossPosition(){
+    /**
+    * Checks and assigns the end boss's x-position to the level_end_position_x property.
+    */
+    checkEndbossPosition() {
         this.level_end_position_x = this.endboss.position_x;
     }
 
 
+    /**
+    * Handles collisions between the character and enemies, reducing character's energy if necessary.
+    * @param {Object} enemy - The enemy object to check collision with.
+    */
     collisionWithEnemies(enemy) {
         if (this.character.isColliding(enemy)) {
             if (!this.character.isAboveGround() && enemy.dead == false) {
-                this.character.hit(5);}
-            this.statusbarHealth.setPercentage(this.character.energy);}
+                this.character.hit(5);
+            }
+            this.statusbarHealth.setPercentage(this.character.energy);
+        }
     }
 
 
+    /**
+    *Checks for collisions when character jumps on chicken enemies, reducing enemy's health and removing them upon collision.
+    */
     checkJumpingOnChicken() {
         this.level.chickens.forEach((enemy, index) => {
             if (this.collisionDetected(enemy)) {
-                if (!audioMuted) { this.chicken_audio.play();}
+                if (!audioMuted) { this.chicken_audio.play(); }
                 enemy.hit(5);
                 enemy.dead = true;
                 setTimeout(() => {
                     this.level.chickens.splice(index, 1)
-                }, 500);}})
+                }, 500);
+            }
+        })
     }
 
 
+    /**
+    * Checks for collisions when character jumps on baby chicken enemies, reducing enemy's health and removing them upon collision.
+    */
     checkJumpingOnBabyChicken() {
         this.level.babyChickens.forEach((enemy, index) => {
             if (this.collisionDetected(enemy)) {
-                if (!audioMuted) {this.chicken_audio.play();}
+                if (!audioMuted) { this.chicken_audio.play(); }
                 enemy.hit(5);
                 enemy.dead = true;
                 setTimeout(() => {
                     this.level.babyChickens.splice(index, 1)
-                }, 500);}})
+                }, 500);
+            }
+        })
     }
 
 
+    /**
+     * Detects collisions between the character and enemies when the character is jumping.
+     * @param {Object} enemy - The enemy object to check collision with.
+     * @returns {boolean} - Returns true if collision is detected; otherwise, returns false.
+    */
     collisionDetected(enemy) {
         return this.character.isColliding(enemy) &&
             this.character.isAboveGround() &&
             this.character.rate_of_fall < 0;
     }
 
-
+    /**
+    * Checks collisions between the character and coins, triggering coin collection if collision occurs.
+    */
     checkCollisionsWithCoins() {
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
-                this.collectingCoins(index);}})
+                this.collectingCoins(index);
+            }
+        })
     }
 
 
+    /**
+    * Checks collisions between the character and bottles, triggering bottle collection if collision occurs.
+    */
     checkCollisionsWithBottles() {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
-                this.collectingBottles(index);}})
+                this.collectingBottles(index);
+            }
+        })
     }
 
 
+    /**
+    * Collects coins and updates character's coin count and the status bar.
+    * @param {number} index - The index of the collected coin.
+    */
     collectingCoins(index) {
         if (this.character.coins < 100) {
             this.level.coins.splice(index, 1);
             this.character.coins += 20;
-            this.statusbarCoins.setPercentage(this.character.coins);}
+            this.statusbarCoins.setPercentage(this.character.coins);
+        }
     }
 
 
+    /**
+     * Collects bottles and updates character's bottle count and the status bar.
+     * @param {number} index - The index of the collected bottle.
+     */
     collectingBottles(index) {
         if (this.character.bottles < 100) {
             this.level.bottles.splice(index, 1);
             this.character.bottles += 20;
-            this.statusbarBottles.setPercentage(this.character.bottles);}
+            this.statusbarBottles.setPercentage(this.character.bottles);
+        }
     }
 
 
+    /**
+     * Decreases the character's bottle count when a bottle is thrown and updates the status bar.
+     */
     throwBottle() {
         this.character.bottles -= 20;
         this.statusbarBottles.setPercentage(this.character.bottles);
     }
 
 
+    /**
+     * Sets the world reference for the character.
+     */
     setWorld() {
         this.character.world = this;
     }
 
 
+    /**
+     * Clears the canvas, translates the canvas, and draws various game objects and status bars.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); //clearRect-> cleart beim Aktualisieren das Canvas, da sich sonst Figuren nicht bewegen würden
 
@@ -196,7 +271,8 @@ class World {
         this.addToMap(this.statusbarCoins);
         this.addToMap(this.statusbarBottles);
         if (this.endboss.position_x < 1400 || this.character.position_x > 1000) {
-            this.addToMap(this.statusbarEndboss);}
+            this.addToMap(this.statusbarEndboss);
+        }
 
         this.ctx.translate(this.camera_x, 0); //Kamera verschiebt sich vor
         this.addToMap(this.character);
@@ -207,6 +283,10 @@ class World {
     }
 
 
+    /**
+     * Adds multiple objects to the map for rendering.
+     * @param {Array} objects - Array containing the objects to be added to the map.
+     */
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
@@ -214,28 +294,40 @@ class World {
     }
 
 
+    /**
+     * Adds an object to the map, including the logic for mirroring if needed.
+     * @param {Object} mO - The moveable object to be added to the map.
+     */
     addToMap(mO) {
-        this.mirrorImage(mO); //Methode um Bild zu spiegeln
+        this.mirrorImage(mO); // Method to mirror the image
         mO.draw(this.ctx);
-       //mO.drawFrame(this.ctx); //zeichnet Rahmen um Objekte, um Kollision besser abstimmen zu können
-        this.mirrorImageBack(mO); //Methode um Bild zu zurückzuspiegeln
+        // mO.drawFrame(this.ctx); // Draws a frame around objects for better collision coordination
+        this.mirrorImageBack(mO); // Method to un-mirror the image
     }
 
 
+    /**
+     * Mirrors the image horizontally if the object is set to mirroring mode.
+     * @param {Object} mO - The moveable object to be mirrored.
+     */
     mirrorImage(mO) {
-        if (mO.mirroring) { //Bedinung ist das mO (moveable object) true ist
-            this.ctx.save(); // wird Bedinung erfüllt, wird der aktuelle Zustand des Canvas gespeichert um später wieder darauf zugreifen zu können
-            this.ctx.translate(mO.width, 0); //die Koordinate des Canvas wird verschoben, das mO wird am rechten Rand des Canvas angezeigt
-            this.ctx.scale(-1, 1); // hier findet die Spiegelung auf der Horizontalen (-1) statt, die Vertikale bleibt mit (1) unberührt
-            mO.position_x = mO.position_x * -1; //die Koordinate des Objekts wird mit -1 umgekehrt, sodass das Objekt wieder am linken Rand steht
+        if (mO.mirroring) {
+            this.ctx.save(); // Saves the current state of the canvas
+            this.ctx.translate(mO.width, 0); // Moves the canvas coordinate to display the object at the right edge of the canvas
+            this.ctx.scale(-1, 1); // Horizontally mirrors the object (horizontal scaling by -1)
+            mO.position_x = mO.position_x * -1; // Reverses the object's coordinate, so it appears on the left edge
         }
     }
 
 
+    /**
+     * Reverts the mirroring effect applied to the image.
+     * @param {Object} mO - The moveable object to revert the mirroring.
+     */
     mirrorImageBack(mO) {
-        if (mO.mirroring) { //Bedingung überprüft ob mO true ist
-            mO.position_x = mO.position_x * -1; //Koordinate wird erneut umgekehrt, sodass das Objekt wieder an seinen urpsrünglichen Standort ist
-            this.ctx.restore(); // der zuvor gespeicherte Zustand wird wiederhergestellt
+        if (mO.mirroring) {
+            mO.position_x = mO.position_x * -1; // Reverses the object's coordinate to bring it back to its original position
+            this.ctx.restore(); // Restores the previously saved canvas state
         }
     }
 }

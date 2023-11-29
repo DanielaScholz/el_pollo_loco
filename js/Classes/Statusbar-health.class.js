@@ -1,4 +1,9 @@
 class StatusbarHealth extends Statusbar{
+
+    /**
+     * Position of the status bar.
+     * @type {number}
+     */
     position_x = 20;
     position_y= 0;
 

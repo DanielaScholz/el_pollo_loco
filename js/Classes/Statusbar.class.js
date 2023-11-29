@@ -1,17 +1,35 @@
 class Statusbar extends DrawableObject {
-    height= 60; //Höhe der Statusbar
-    width = 200; //Breite der Statusbar
+    /**
+     * Measurements of the status bar.
+     * @type {number}
+     */
+    height = 60;
+    width = 200;
+
+
+    /**
+     * Current percentage value for the status bar.
+     * @type {number}
+     */
     percentage;
 
 
-    setPercentage(percentage){
+    /**
+    * Sets the percentage value for the status bar.
+    * @param {number} percentage - The percentage value to set.
+    */
+    setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES[this.getIndexForImage()];
         this.img = this.imagesCache[path];
     }
-    
 
-    getIndexForImage(){
+
+    /**
+     * Determines the index for the image based on the current percentage value.
+     * @returns {number} The index for the image.
+     */
+    getIndexForImage() {
         if (this.percentage >= 100) {
             return 5;
         } else if (this.percentage >= 80) {
@@ -23,7 +41,7 @@ class Statusbar extends DrawableObject {
         } else if (this.percentage >= 20) {
             return 1;
         } else {
-            return 0  
-        }  
+            return 0
+        }
     }
 }

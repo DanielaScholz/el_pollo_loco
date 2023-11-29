@@ -1,20 +1,48 @@
 class Character extends MoveableObject {
     world;
 
+    /**
+     * Measurements of the character.
+     * @type {number}
+     */
     height = 280;
     width = 120;
+
+    /**
+     * Speed of the character.
+     * @type {number}
+     */
     speed = 10;
 
+
+    /**
+     * Vertical position of the character.
+     * @type {number}
+     */
     position_y = 75;
 
+
+    /**
+     * Offset object specifying top, bottom, left, and right offsets.
+     * @type {Object}
+     * @property {number} top - Top offset value.
+     * @property {number} bottom - Bottom offset value.
+     * @property {number} left - Left offset value.
+     * @property {number} right - Right offset value.
+     */
     offset = {
         top: 120,
         bottom: 10,
         left: 30,
-        right: 30 }
+        right: 30
+    }
 
     lastMove = 0;
 
+    /**
+     * Array containing images for the animation.
+     * @type {string[]}
+     */
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -93,7 +121,9 @@ class Character extends MoveableObject {
         this.animateCharacter();
     }
 
-
+    /**
+     * Animates the character by setting intervals for movement and animations.
+     */
     animateCharacter() {
         this.intervalForMovement();
         this.intervalForAnimation();
@@ -101,7 +131,10 @@ class Character extends MoveableObject {
     }
 
 
-    intervalForMovement(){
+    /**
+     * Interval function for character movement.
+     */
+    intervalForMovement() {
         setStoppableInterval(() => {
             this.pepeWalkesRight();
             this.pepeWalkesLeft();
@@ -112,7 +145,10 @@ class Character extends MoveableObject {
     }
 
 
-    intervalForAnimation(){
+    /**
+     * Interval function for character animations.
+     */
+    intervalForAnimation() {
         setStoppableInterval(() => {
             if (this.isDead()) {
                 this.playAnimationPepeIsDead();
@@ -123,13 +159,17 @@ class Character extends MoveableObject {
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) { //Bedingung: entweder Peiltaste nach rechts oder nach links wird gedrückt, damit die Bildfolge abgespielt wird
                     //Animation beim Gehen - Bildabfolge wird in einer Schleife ausgeführt, damit sich die Beine von Pepe bewegen
-                    this.playImagesforAnimation(this.IMAGES_WALKING);}
+                    this.playImagesforAnimation(this.IMAGES_WALKING);
+                }
             }
         }, 50);
     }
 
 
-    intervalForIdleAnimation(){
+   /**
+     * Interval function for idle character animations.
+     */
+    intervalForIdleAnimation() {
         setStoppableInterval(() => {
             if (this.checkIfPepeIsInactive) {
                 let timePassed = new Date().getTime() - this.lastMove;
@@ -137,22 +177,30 @@ class Character extends MoveableObject {
                 if (timePassed > 5 && this.lastMove !== 0) {
                     this.playImagesforAnimation(this.IMAGES_LONG_IDLE);
                 } else if (timePassed > 0.5 && this.position_y == 180 && !this.isHurt()) {
-                    this.playImagesforAnimation(this.IMAGES_IDLE);}
+                    this.playImagesforAnimation(this.IMAGES_IDLE);
+                }
             }
         }, 100)
     }
 
 
+    /**
+     * Checks if the character is inactive.
+     * @returns {boolean} Whether the character is inactive or not.
+     */
     checkIfPepeIsInactive() {
         return (
             !this.world.keyboard.LEFT &&
             !this.world.keyboard.RIGHT &&
             !this.world.keyboard.SPACE &&
-            !this.world.keyboard.D) || 
+            !this.world.keyboard.D) ||
             !this.world.keyboard.D;
     }
 
-    
+
+    /**
+     * Plays the animation when the character is dead.
+     */
     playAnimationPepeIsDead() {
         this.playImagesforAnimation(this.IMAGES_DEAD);
         setTimeout(() => {
@@ -162,38 +210,52 @@ class Character extends MoveableObject {
     }
 
 
+    /**
+     * Moves the character to the right.
+     */
     //Geschwindigkeit von Pepe beim Gehen -> x-Position wird beim Pfeiltaste nach rechts drücken um 10px erhöht
     //Pepe geht nach rechts
     pepeWalkesRight() {
         if (this.world.keyboard.RIGHT && this.position_x < this.world.level_end_position_x) {
             this.moveRight();
             this.mirroring = false;
-            this.lastMove = new Date().getTime();}
+            this.lastMove = new Date().getTime();
+        }
     }
 
 
+    /**
+     * Moves the character to the left.
+     */
     pepeWalkesLeft() {
         if (this.world.keyboard.LEFT && this.position_x > 0) {
             this.moveLeft(); //Damit Pepe nach links geht wird die x-Achse reduziert beim Pfeiltaste nach links drücken
             this.mirroring = true;
-            this.lastMove = new Date().getTime();}
+            this.lastMove = new Date().getTime();
+        }
     }
 
 
+    /**
+     * Makes the character jump.
+     */
     pepeJumps() {
         if (this.world.keyboard.SPACE && !this.isAboveGround()) {
             this.rate_of_fall = 25;
             this.lastMove = new Date().getTime();
             if (!audioMuted) {
-                this.jumping_audio.play();}
+                this.jumping_audio.play();
+            }
         }
     }
 
 
+    /**
+     * Triggers the character to throw a bottle.
+     */
     pepeThrowBottle() {
         if (this.world.keyboard.D) {
             this.lastMove = new Date().getTime();
         }
     }
-
 }

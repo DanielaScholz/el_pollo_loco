@@ -1,6 +1,16 @@
 class Cloud extends MoveableObject {
+
+    /**
+     * Measurements of the cloud.
+     * @type {number}
+     */
     width = 500;
     height = 250;
+
+    /**
+     * Speed level of the cloud.
+     * @type {number}
+     */
     speed = 0.5;
 
 
@@ -11,6 +21,9 @@ class Cloud extends MoveableObject {
         this.animateClouds();
     }
 
+    /**
+     * Moves the clourd to the left.
+     */
     animateClouds() {
         setStoppableInterval(() => {
             this.moveLeft();

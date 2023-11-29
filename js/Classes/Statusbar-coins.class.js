@@ -1,8 +1,13 @@
-class StatusbarCoins extends Statusbar{
+class StatusbarCoins extends Statusbar {
+
+    /**
+     * Position of the status bar.
+     * @type {number}
+     */
     position_x = 20;
     position_y = 45;
 
-    IMAGES =[
+    IMAGES = [
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/40.png',
@@ -11,7 +16,7 @@ class StatusbarCoins extends Statusbar{
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png'
     ];
 
-    constructor(){
+    constructor() {
         super().loadImages(this.IMAGES);
         this.setPercentage(0);
     }

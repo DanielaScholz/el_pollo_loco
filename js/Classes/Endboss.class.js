@@ -1,9 +1,28 @@
 class Endboss extends MoveableObject {
+    /**
+     * Measurements of the endboss.
+     * @type {number}
+     */
     height = 300;
     width = 170;
+
+    /**
+     * Vertical position of the endboss.
+     * @type {number}
+     */
     position_y = 160;
+
+    /**
+     * Speed level of the endboss.
+     * @type {number}
+     */
     speed = 0.7;
 
+
+    /**
+     * Array containing images for animations.
+     * @type {string[]}
+     */
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
         'img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -56,13 +75,19 @@ class Endboss extends MoveableObject {
         this.animateEndboss();
     }
     
-
+    
+    /**
+     * Initiates the animation sequence for the endboss.
+     */
     animateEndboss() {
         this.intervalForPositionSettings();
         this.intervalForAnimation();
     }
 
 
+   /**
+     * Sets intervals for adjusting endboss position settings.
+     */
     intervalForPositionSettings(){
         setStoppableInterval(() => {
             if (world.character.position_x > 800 && this.position_x > 1650) {
@@ -73,6 +98,9 @@ class Endboss extends MoveableObject {
     }
 
 
+    /**
+     * Sets intervals for controlling endboss animations based on conditions.
+     */
     intervalForAnimation(){
         setStoppableInterval(() => {
             if (this.isDead()) {
@@ -90,6 +118,9 @@ class Endboss extends MoveableObject {
     }
 
 
+    /**
+     * Shows the end screen after a certain delay.
+     */
     showEndOfGame(){
         setTimeout(() => {
             showEndScreen();

@@ -1,10 +1,41 @@
 class DrawableObject {
+
+    /**
+     * Horizontal position of the drawable object.
+     * @type {number}
+     */
     position_x = 100;
 
+
+    /**
+     * Image element representing the object's image.
+     * @type {HTMLImageElement}
+     */
     img;
+
+
+    /**
+     * Cache for images loaded with their respective paths as keys.
+     * @type {Object.<string, HTMLImageElement>}
+     */
     imagesCache = {};
+
+
+    /**
+     * Index of the current image being displayed.
+     * @type {number}
+     */
     currentImage = 0;
 
+
+    /**
+     * Offset object specifying top, bottom, left, and right offsets.
+     * @type {Object}
+     * @property {number} top - Top offset value.
+     * @property {number} bottom - Bottom offset value.
+     * @property {number} left - Left offset value.
+     * @property {number} right - Right offset value.
+     */
     offset = {
         top: 0,
         bottom: 0,
@@ -13,15 +44,20 @@ class DrawableObject {
     };
 
 
-    //Methode um Bilder zu laden
+    /**
+     * Loads an image from the specified path.
+     * @param {string} path - The path of the image to load.
+     */
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
 
-    //Methode um eine Bildabfolge aus einem Array zu laden  z.B. Pepe, Hühner
-    loadImages(array) {
+   /**
+     * Loads a sequence of images from an array of paths.
+     * @param {string[]} array - Array containing paths of images to load.
+     */    loadImages(array) {
         array.forEach(path => {
             let img = new Image();
             img.src = path;
@@ -30,20 +66,12 @@ class DrawableObject {
     }
 
 
+    /**
+     * Draws the object on the canvas context.
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context to draw on.
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.position_x, this.position_y, this.width, this.height);
     }
-
-    //Methode um Rechtecke um die Objekte zu zeichen um Kollision erkennbar zu machen -> nur für die Spielentwicklung notwendig
-    // drawFrame(ctx) {
-    //     if (this instanceof Character || this instanceof Chicken || this instanceof BabyChicken) { // Bedingung gilt nur für Instanz Character & Chicken
-    //         ctx.beginPath();
-    //         ctx.lineWidth = "4";
-    //         ctx.strokeStyle = "green";
-    //         ctx.rect(this.position_x + this.offset.left, this.position_y + this.offset.top, this.width - this.offset.right - this.offset.left, this.height - this.offset.top - this.offset.bottom);
-    //         ctx.stroke();
-    //     }
-    // }
-
 
 }
