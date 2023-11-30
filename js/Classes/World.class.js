@@ -4,10 +4,10 @@ class World {
     canvas;
     ctx;
     keyboard;
-    mirroring = false; //Spiegelung von Objekten beim Rückwertsgehen
+    mirroring = false; //Mirroring of objects while moving backward.
     camera_x = 0;
     level_end_position_x;
-    dead = false; //Variable zum Auslesen, ob Gegner tot sind
+    dead = false; //Variable for checking if opponents are dead
     chicken_audio = new Audio('audio/chicken.mp3')
 
     level = level1;

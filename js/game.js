@@ -14,6 +14,9 @@ async function init() {
 }
 
 
+/**
+ * Starts the game by setting up the canvas and world.
+ */
 async function startGame() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
@@ -21,17 +24,28 @@ async function startGame() {
 }
 
 
+/**
+ * Sets an interval that can be stopped.
+ * @param {Function} fn - The function to be executed repeatedly.
+ * @param {number} time - The time interval for function execution.
+ */
 function setStoppableInterval(fn, time) {
     let id = setInterval(fn, time);
     intervalIds.push(id);
 }
 
 
+/**
+ * Stops the game by clearing all intervals.
+ */
 function stopGame() {
     intervalIds.forEach(clearInterval);
 }
 
 
+/**
+ * Hides the start screen elements and displays the game canvas.
+ */
 async function hideStartScreen() {
     hide('start-btn');
     hide('start-screen');
@@ -41,6 +55,9 @@ async function hideStartScreen() {
 }
 
 
+/**
+ * Displays the end screen elements and hides the game canvas.
+ */
 function showEndScreen() {
     show('end-screen');
     hide('canvas');
@@ -49,6 +66,9 @@ function showEndScreen() {
 }
 
 
+/**
+ * Restarts the game by hiding the end screen, displaying the canvas, and initializing the game again.
+ */
 function reStartGame() {
     hide('end-screen');
     show('canvas');
@@ -60,6 +80,10 @@ function reStartGame() {
 
 
 // FULLSCREEN
+
+/**
+ * Toggles fullscreen mode and related settings.
+ */
 function fullscreen() {
     let isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
@@ -77,6 +101,9 @@ function fullscreen() {
 }
 
 
+/**
+ * Adds fullscreen-related classes to specific elements for fullscreen mode.
+ */
 function openFullscreenSettings() {
     add('canvas', 'fullscreen-height', 'fullscreen-width');
     add('start-screen', 'fullscreen-height', 'fullscreen-width');
@@ -85,6 +112,9 @@ function openFullscreenSettings() {
 }
 
 
+/**
+ * Removes fullscreen-related classes from specific elements to exit fullscreen mode.
+ */
 function closeFullscreenSettings() {
     remove('canvas', 'fullscreen-height', 'fullscreen-width');
     remove('start-screen', 'fullscreen-height', 'fullscreen-width');
@@ -93,6 +123,10 @@ function closeFullscreenSettings() {
 }
 
 
+/**
+ * Enters fullscreen mode for the given element.
+ * @param {HTMLElement} docElm - The HTML element to be displayed in fullscreen mode.
+ */
 function enterFullscreen(docElm) {
     if (docElm.requestFullscreen) {
         docElm.requestFullscreen();
@@ -106,6 +140,9 @@ function enterFullscreen(docElm) {
 }
 
 
+/**
+ * Exits fullscreen mode.
+ */
 function exitFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -119,6 +156,10 @@ function exitFullscreen() {
 }
 
 
+/**
+ * Toggles the audio on or off based on the device.
+ * @param {string} device - The device identifier.
+ */
 function toggleAudio(device) {
     let audio = document.getElementById(`audio-${device}`);
     if (audio.classList.contains('audio-icon-on')) {
@@ -135,6 +176,9 @@ function toggleAudio(device) {
 }
 
 
+/**
+ * Plays the background audio.
+ */
 function playBgAudio() {
     let comp = document.getElementById('audio-comp');
     let mobile = document.getElementById('audio-mobile');
@@ -148,27 +192,55 @@ function playBgAudio() {
 }
 
 
-//HILFSFUNKTION SHOW/HIDE
+// SHOW/HIDE FUNCTIONS
+
+/**
+ * Shows an HTML element by removing the 'd-none' class.
+ * @param {string} elm - The ID of the HTML element to show.
+ */
 function show(elm) {
     document.getElementById(`${elm}`).classList.remove('d-none');
 }
 
+
+/**
+ * Hides an HTML element by adding the 'd-none' class.
+ * @param {string} elm - The ID of the HTML element to hide.
+ */
 function hide(elm) {
     document.getElementById(`${elm}`).classList.add('d-none');
 }
 
+
+/**
+ * Removes specific classes from an HTML element.
+ * @param {string} elm - The ID of the HTML element.
+ * @param {...string} classes - The classes to be removed.
+ */
 function remove(elm, ...classes) {
     let classList = document.getElementById(`${elm}`).classList;
     classes.forEach(className => classList.remove(className));
 }
 
+
+
+/**
+ * Adds specific classes to an HTML element.
+ * @param {string} elm - The ID of the HTML element.
+ * @param {...string} classes - The classes to be added.
+ */
 function add(elm, ...classes) {
     let classList = document.getElementById(`${elm}`).classList;
     classes.forEach(className => classList.add(className));
 }
 
 
-//Keyevents
+//KEYEVENTS
+
+/**
+ * Handles keydown events for keyboard controls.
+ * @param {Event} event - The keydown event object.
+ */
 window.addEventListener('keydown', (event) => {
     if (event.code == 'Space') {
         keyboard.SPACE = true;
@@ -200,6 +272,11 @@ window.addEventListener('keydown', (event) => {
 });
 
 
+
+/**
+ * Handles keyup events for keyboard controls.
+ * @param {Event} event - The keyup event object.
+ */
 window.addEventListener('keyup', (event) => {
     if (event.code == 'Space') {
         keyboard.SPACE = false;
@@ -227,7 +304,11 @@ window.addEventListener('keyup', (event) => {
 });
 
 
-//Mobile keyevents
+//MOBILE KEYEVENTS
+
+/**
+ * Sets up touch events for mobile keyboard controls.
+ */
 function mobileKeyboardEvents() {
     document.getElementById('btnLeft').addEventListener('touchstart', (event) => {
         event.preventDefault();
